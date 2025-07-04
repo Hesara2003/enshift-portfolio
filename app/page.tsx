@@ -1413,7 +1413,7 @@ export default function EnshiftPortfolio() {
 
   const services = [
     {
-      icon: <Sparkles className="w-8 h-8" />,
+      icon: Sparkles,
       title: "Web Design",
       description: "Lightning-fast, responsive websites engineered for peak performance and user experience.",
       tag: "DESIGN",
@@ -1421,7 +1421,7 @@ export default function EnshiftPortfolio() {
       efficiency: "98%",
     },
     {
-      icon: <Zap className="w-8 h-8" />,
+      icon: Zap,
       title: "UI/UX Design",
       description: "Precision-crafted interfaces that deliver seamless user journeys and engagement.",
       tag: "INTERFACE",
@@ -1429,7 +1429,7 @@ export default function EnshiftPortfolio() {
       efficiency: "96%",
     },
     {
-      icon: <Target className="w-8 h-8" />,
+      icon: Target,
       title: "Brand Strategy",
       description: "Strategic brand positioning that accelerates growth and market dominance.",
       tag: "STRATEGY",
@@ -1437,7 +1437,7 @@ export default function EnshiftPortfolio() {
       efficiency: "94%",
     },
     {
-      icon: <Users className="w-8 h-8" />,
+      icon: Users,
       title: "Performance Optimization",
       description: "Turbo-charged optimization for maximum speed, conversion, and user satisfaction.",
       tag: "PERFORMANCE",
@@ -2249,7 +2249,7 @@ export default function EnshiftPortfolio() {
 
                   {/* Icon */}
                   <div className="text-f1-orange mb-6 group-hover:text-f1-red group-hover:scale-110 transition-all duration-300">
-                    {service.icon}
+                    <service.icon className="w-8 h-8" />
                   </div>
 
                   {/* Title */}
