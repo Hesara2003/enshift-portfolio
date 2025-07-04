@@ -35,6 +35,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import Navbar from "@/components/navbar"
 import ScrollVideo from "@/components/scroll-video"
+import F1LoadingScreen from "@/components/f1-loading-screen"
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -42,6 +43,9 @@ if (typeof window !== "undefined") {
 }
 
 export default function EnshiftPortfolio() {
+  // Loading state
+  const [isLoading, setIsLoading] = useState(true)
+  
   const { scrollYProgress } = useScroll()
   const heroRef = useRef(null)
   const heroBgRef = useRef(null)
@@ -1778,6 +1782,13 @@ export default function EnshiftPortfolio() {
 
   return (
     <>
+      {/* F1 Loading Screen */}
+      {isLoading && (
+        <F1LoadingScreen 
+          onLoadingComplete={() => setIsLoading(false)} 
+        />
+      )}
+      
       {/* Custom Animations Styles */}
       <style jsx>{`
         @keyframes slideInRight {
@@ -1851,12 +1862,39 @@ export default function EnshiftPortfolio() {
         .animate-float {
           animation: float 3s ease-in-out infinite;
         }
+        
+        /* F1 Loading Screen Animations */
+        @keyframes expandLine {
+          0%, 100% { width: 0%; }
+          50% { width: 100%; }
+        }
+        
+        @keyframes enginePulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(1.1); opacity: 0.8; }
+        }
+        
+        @keyframes rpmFlicker {
+          0%, 100% { opacity: 1; }
+          25%, 75% { opacity: 0.7; }
+          50% { opacity: 0.9; }
+        }
+        
+        .animate-engine-pulse {
+          animation: enginePulse 2s ease-in-out infinite;
+        }
+        
+        .animate-rpm-flicker {
+          animation: rpmFlicker 0.3s ease-in-out infinite;
+        }
       `}</style>
       
       {/* Cinematic Film Grain Overlay */}
       <div className="cinematic-grain"></div>
       
-    <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
+      {/* Main Website Content - Only render when not loading */}
+      {!isLoading && (
+        <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
       {/* Navigation */}
       <Navbar />
 
@@ -3929,7 +3967,8 @@ export default function EnshiftPortfolio() {
         {/* Championship Finish Line */}
         <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse shadow-lg shadow-red-600/50" />
       </footer>
-    </div>
+        </div>
+      )}
     </>
   )
 }
