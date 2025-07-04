@@ -61,7 +61,7 @@ export default function EnshiftPortfolio() {
   const footerSocialRef = useRef(null)
   const [currentSlide, setCurrentSlide] = useState(0)
   const [currentTestimonialSlide, setCurrentTestimonialSlide] = useState(0)
-  const [pitCrewTimeline, setPitCrewTimeline] = useState<gsap.core.Timeline | null>(null)
+  const pitCrewTimelineRef = useRef<gsap.core.Timeline | null>(null)
   const [isVideoComplete, setIsVideoComplete] = useState(false)
 
   // Enhanced scroll triggers with more precise control
@@ -877,7 +877,7 @@ export default function EnshiftPortfolio() {
       })
       .set({}, {}, "+=3")
 
-    setPitCrewTimeline(timeline)
+    pitCrewTimelineRef.current = timeline
 
     // Start carousel when in view
     ScrollTrigger.create({
@@ -1371,8 +1371,8 @@ export default function EnshiftPortfolio() {
     // Cleanup function
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-      if (pitCrewTimeline) {
-        pitCrewTimeline.kill()
+      if (pitCrewTimelineRef.current) {
+        pitCrewTimelineRef.current.kill()
       }
     }
   }, [])
@@ -1541,8 +1541,8 @@ export default function EnshiftPortfolio() {
   const nextTestimonialSlide = () => {
     const newSlide = (currentTestimonialSlide + 1) % testimonials.length
     setCurrentTestimonialSlide(newSlide)
-    if (pitCrewTimeline) {
-      pitCrewTimeline.pause()
+    if (pitCrewTimelineRef.current) {
+      pitCrewTimelineRef.current.pause()
       gsap.to(pitCrewTrackRef.current, {
         x: `${-newSlide * 33.333}%`,
         duration: 0.8,
@@ -1554,8 +1554,8 @@ export default function EnshiftPortfolio() {
   const prevTestimonialSlide = () => {
     const newSlide = currentTestimonialSlide === 0 ? testimonials.length - 1 : currentTestimonialSlide - 1
     setCurrentTestimonialSlide(newSlide)
-    if (pitCrewTimeline) {
-      pitCrewTimeline.pause()
+    if (pitCrewTimelineRef.current) {
+      pitCrewTimelineRef.current.pause()
       gsap.to(pitCrewTrackRef.current, {
         x: `${-newSlide * 33.333}%`,
         duration: 0.8,
@@ -1566,8 +1566,8 @@ export default function EnshiftPortfolio() {
 
   const goToTestimonialSlide = (index: number) => {
     setCurrentTestimonialSlide(index)
-    if (pitCrewTimeline) {
-      pitCrewTimeline.pause()
+    if (pitCrewTimelineRef.current) {
+      pitCrewTimelineRef.current.pause()
       gsap.to(pitCrewTrackRef.current, {
         x: `${-index * 33.333}%`,
         duration: 0.8,
