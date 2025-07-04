@@ -10,8 +10,7 @@ interface F1LoadingScreenProps {
 
 export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenProps) {
   const [isEngineStarted, setIsEngineStarted] = useState(false)
-  const [loadingProgress, setLoadingProgress] = useState(0)
-  const [currentPhase, setCurrentPhase] = useState<'waiting' | 'starting' | 'loading' | 'complete'>('waiting')
+  const [currentPhase, setCurrentPhase] = useState<'waiting' | 'starting' | 'engine-warming' | 'engine-active' | 'engine-ready' | 'complete'>('waiting')
   const audioRef = useRef<HTMLAudioElement | null>(null)
   const [supportsHaptics, setSupportsHaptics] = useState(false)
 
@@ -56,7 +55,7 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
     const hapticInterval = setInterval(() => {
       if (currentPhase === 'starting') {
         navigator.vibrate([80, 60, 120]) // Engine cranking pattern
-      } else if (currentPhase === 'loading') {
+      } else if (currentPhase === 'engine-warming') {
         navigator.vibrate([100, 80, 150]) // Engine running pattern
       }
     }, 1000) // Repeat every second
@@ -94,18 +93,33 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
       createF1Haptics('revving')
     }, 500)
 
-    // Engine start sequence - timed with the audio
+    // Engine sequence - timed with the audio
     setTimeout(() => {
-      setCurrentPhase('loading')
+      setCurrentPhase('engine-warming')
       
-      // Loading phase haptics
+      // Engine warming haptics
       createF1Haptics('loading')
       
-      // Simulate loading progress with more realistic F1 timing
-      const interval = setInterval(() => {
-        setLoadingProgress(prev => {
-          if (prev >= 100) {
-            clearInterval(interval)
+      // Engine becomes active after 1 second
+      setTimeout(() => {
+        setCurrentPhase('engine-active')
+        
+        // Intense engine haptics
+        if (supportsHaptics) {
+          navigator.vibrate([200, 100, 300, 100, 400, 100, 500])
+        }
+        
+        // Engine ready phase
+        setTimeout(() => {
+          setCurrentPhase('engine-ready')
+          
+          // Final engine haptics
+          if (supportsHaptics) {
+            navigator.vibrate([100, 50, 200, 50, 400, 50, 600])
+          }
+          
+          // Complete the transition
+          setTimeout(() => {
             setCurrentPhase('complete')
             
             // Final completion haptic
@@ -120,12 +134,10 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
                 audioRef.current.currentTime = 0
               }
               onLoadingComplete()
-            }, 1000)
-            return 100
-          }
-          return prev + Math.random() * 12 + 4 // Slightly faster loading
-        })
-      }, 180) // Faster intervals to match F1 pace
+            }, 500)
+          }, 1000)
+        }, 1500)
+      }, 1000)
     }, 2000) // 2 seconds for engine start/rev sound
   }
 
@@ -137,6 +149,94 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
         transition={{ duration: 1, ease: "easeInOut" }}
         className="fixed inset-0 z-[9999] bg-gradient-to-br from-gray-950 via-black to-gray-900 flex items-center justify-center overflow-hidden"
       >
+        {/* Engine Effect */}
+        {(currentPhase === 'engine-warming' || currentPhase === 'engine-active' || currentPhase === 'engine-ready') && (
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            {/* Engine Rings */}
+            {Array.from({ length: 6 }).map((_, i) => (
+              <motion.div
+                key={`engine-ring-${i}`}
+                className="absolute border-2 border-orange-500/40 rounded-full"
+                style={{
+                  width: `${100 + i * 80}px`,
+                  height: `${100 + i * 80}px`,
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={currentPhase === 'engine-warming' ? {
+                  scale: [0, 1, 1.2],
+                  opacity: [0, 0.8, 0.4]
+                } : currentPhase === 'engine-active' ? {
+                  scale: [1.2, 2, 3],
+                  opacity: [0.4, 0.8, 0]
+                } : {
+                  scale: [3, 8, 15],
+                  opacity: [0, 0.6, 0]
+                }}
+                transition={{
+                  duration: currentPhase === 'engine-warming' ? 1 : 
+                           currentPhase === 'engine-active' ? 1.5 : 1,
+                  delay: i * 0.1,
+                  ease: "easeOut"
+                }}
+              />
+            ))}
+            
+            {/* Engine Center */}
+            <motion.div
+              className="absolute w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-br from-orange-500 to-red-600 rounded-full"
+              initial={{ scale: 0 }}
+              animate={currentPhase === 'engine-warming' ? {
+                scale: [0, 1, 1.5],
+                opacity: [0, 1, 0.8]
+              } : currentPhase === 'engine-active' ? {
+                scale: [1.5, 4, 8],
+                opacity: [0.8, 1, 0.2]
+              } : {
+                scale: [8, 20, 50],
+                opacity: [0.2, 0.8, 0]
+              }}
+              transition={{
+                duration: currentPhase === 'engine-warming' ? 1 : 
+                         currentPhase === 'engine-active' ? 1.5 : 1,
+                ease: "easeOut"
+              }}
+            />
+            
+            {/* Engine Particles */}
+            {Array.from({ length: 20 }).map((_, i) => (
+              <motion.div
+                key={`engine-particle-${i}`}
+                className="absolute w-1 h-1 sm:w-2 sm:h-2 bg-orange-400 rounded-full"
+                style={{
+                  left: `${50 + Math.cos(i * 0.314) * 30}%`,
+                  top: `${50 + Math.sin(i * 0.314) * 30}%`,
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={currentPhase === 'engine-warming' ? {
+                  scale: [0, 1, 1.5],
+                  opacity: [0, 1, 0.8]
+                } : currentPhase === 'engine-active' ? {
+                  scale: [1.5, 0.5, 0],
+                  x: [0, Math.cos(i * 0.314) * -200, Math.cos(i * 0.314) * -400],
+                  y: [0, Math.sin(i * 0.314) * -200, Math.sin(i * 0.314) * -400],
+                  opacity: [0.8, 1, 0]
+                } : {
+                  scale: [0, 2, 4],
+                  x: [Math.cos(i * 0.314) * -400, Math.cos(i * 0.314) * -800],
+                  y: [Math.sin(i * 0.314) * -400, Math.sin(i * 0.314) * -800],
+                  opacity: [0, 0.8, 0]
+                }}
+                transition={{
+                  duration: currentPhase === 'engine-warming' ? 1 : 
+                           currentPhase === 'engine-active' ? 1.5 : 1,
+                  delay: i * 0.02,
+                  ease: "easeOut"
+                }}
+              />
+            ))}
+          </div>
+        )}
+
         {/* F1 Background Pattern */}
         <div className="absolute inset-0 opacity-5 sm:opacity-10">
           <div className="grid grid-cols-6 sm:grid-cols-12 h-full gap-px">
@@ -206,7 +306,14 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
         <div className="absolute bottom-2 sm:bottom-8 right-2 sm:right-8 w-8 h-8 sm:w-16 sm:h-16 border-r-2 border-b-2 sm:border-r-4 sm:border-b-4 border-red-600/60 animate-pulse" />
 
         {/* Main Content */}
-        <div className="relative z-10 text-center max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-4 sm:px-6 md:px-8">
+        <motion.div
+          className="relative z-10 text-center max-w-xs sm:max-w-md md:max-w-2xl lg:max-w-4xl mx-auto px-4 sm:px-6 md:px-8"
+          animate={currentPhase === 'engine-ready' ? {
+            scale: [1, 0.8, 0.5],
+            opacity: [1, 0.5, 0]
+          } : {}}
+          transition={{ duration: 1, ease: "easeInOut" }}
+        >
           {/* F1 Logo/Brand */}
           <motion.div
             initial={{ scale: 0, rotate: -180 }}
@@ -258,7 +365,9 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
                 <div className={`w-2 h-2 sm:w-3 sm:h-3 rounded-full ${
                   currentPhase === 'waiting' ? 'bg-gray-500' :
                   currentPhase === 'starting' ? 'bg-yellow-500 animate-pulse' :
-                  currentPhase === 'loading' ? 'bg-orange-500 animate-pulse' :
+                  currentPhase === 'engine-warming' ? 'bg-orange-500 animate-pulse' :
+                  currentPhase === 'engine-active' ? 'bg-red-500 animate-pulse' :
+                  currentPhase === 'engine-ready' ? 'bg-purple-500 animate-pulse' :
                   'bg-green-500'
                 }`} />
               </div>
@@ -266,8 +375,10 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
               <div className="text-lg sm:text-xl md:text-2xl font-mono font-bold mb-2">
                 {currentPhase === 'waiting' && <span className="text-gray-400">STANDBY</span>}
                 {currentPhase === 'starting' && <span className="text-yellow-400">IGNITION</span>}
-                {currentPhase === 'loading' && <span className="text-orange-400">TURBOCHARGED</span>}
-                {currentPhase === 'complete' && <span className="text-green-400">READY</span>}
+                {currentPhase === 'engine-warming' && <span className="text-orange-400">ENGINE WARMING</span>}
+                {currentPhase === 'engine-active' && <span className="text-red-400">ENGINE ACTIVE</span>}
+                {currentPhase === 'engine-ready' && <span className="text-purple-400">ENGINE READY</span>}
+                {currentPhase === 'complete' && <span className="text-green-400">COMPLETE</span>}
               </div>
 
               {/* Engine RPM Simulation */}
@@ -277,15 +388,17 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
                   animate={{ opacity: [1, 0.5, 1] }}
                   transition={{ duration: 0.2, repeat: Infinity }}
                 >
-                  RPM: {currentPhase === 'starting' ? Math.floor(Math.random() * 3000 + 1000) :
-                        currentPhase === 'loading' ? Math.floor(Math.random() * 2000 + 8000) :
-                        9500}
+                  {currentPhase === 'starting' && `RPM: ${Math.floor(Math.random() * 3000 + 1000)}`}
+                  {currentPhase === 'engine-warming' && `RPM: ${Math.floor(Math.random() * 2000 + 8000)}`}
+                  {currentPhase === 'engine-active' && `RPM: ${Math.floor(Math.random() * 1000 + 15000)}`}
+                  {currentPhase === 'engine-ready' && `RPM: ${Math.floor(Math.random() * 5000 + 20000)}`}
+                  {currentPhase === 'complete' && "ENGINE: READY"}
                 </motion.div>
               )}
             </div>
           </motion.div>
 
-          {/* Start Engine Button or Loading Progress */}
+          {/* Start Engine Button or Portal Status */}
           {currentPhase === 'waiting' ? (
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -299,9 +412,8 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
                 transition={{ duration: 2, repeat: Infinity }}
                 className="mb-4 sm:mb-6 text-center"
               >
-                <p className="text-orange-400 text-base sm:text-lg font-mono font-bold mb-2">START THE ENGINE</p>
-                <p className="text-gray-400 text-sm mb-1">Tap to start with authentic F1 sound</p>
-                <p className="text-gray-500 text-xs">🔊 Real F1 rev audio included</p>
+                <p className="text-orange-400 text-base sm:text-lg font-mono font-bold mb-2">START ENGINE</p>
+                <p className="text-gray-400 text-sm mb-1">Tap to fire up the F1 engine</p>
               </motion.div>
 
               {/* F1 Start Engine Button */}
@@ -316,35 +428,6 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
                 {/* Button Glow Effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-red-600/20 to-orange-600/20 rounded-xl sm:rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300" />
               </button>
-
-              {/* Audio Indicator */}
-              <motion.div
-                className="mt-3 sm:mt-4 flex items-center gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.2 }}
-              >
-                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-green-500 rounded-full animate-pulse"></div>
-                <span className="text-green-400 text-xs font-mono">F1 AUDIO READY</span>
-                <div className="flex gap-1 ml-2">
-                  {Array.from({ length: 3 }).map((_, i) => (
-                    <motion.div
-                      key={i}
-                      className="w-0.5 h-2 sm:w-1 sm:h-3 bg-orange-500/60 rounded-full"
-                      animate={{
-                        height: [8, 16, 8],
-                        opacity: [0.6, 1, 0.6]
-                      }}
-                      transition={{
-                        duration: 1,
-                        repeat: Infinity,
-                        delay: i * 0.2,
-                        ease: "easeInOut"
-                      }}
-                    />
-                  ))}
-                </div>
-              </motion.div>
             </motion.div>
           ) : (
             <motion.div
@@ -353,62 +436,40 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
               transition={{ duration: 0.4 }}
               className="space-y-4 sm:space-y-6"
             >
-              {/* Loading Progress Bar */}
+              {/* Engine Status */}
               <div className="bg-black/40 backdrop-blur-sm border border-orange-600/30 rounded-xl sm:rounded-2xl p-4 sm:p-6 max-w-xs sm:max-w-md mx-auto">
-                <div className="flex items-center justify-between mb-3 sm:mb-4">
-                  <span className="text-gray-400 text-xs sm:text-sm font-mono uppercase tracking-wider">
-                    {currentPhase === 'starting' ? 'Engine Starting...' :
-                     currentPhase === 'loading' ? 'Loading Systems...' :
-                     'Ready to Race!'}
+                <div className="text-center">
+                  <span className="text-orange-400 text-xs sm:text-sm font-mono uppercase tracking-wider block mb-2">
+                    Engine Status
                   </span>
-                  <span className="text-orange-400 text-xs sm:text-sm font-mono font-bold">
-                    {Math.floor(loadingProgress)}%
-                  </span>
-                </div>
-                
-                {/* Progress Bar */}
-                <div className="w-full bg-gray-800 rounded-full h-2 sm:h-3 overflow-hidden">
-                  <motion.div
-                    className="h-full bg-gradient-to-r from-red-600 via-orange-500 to-red-600 rounded-full"
-                    initial={{ width: 0 }}
-                    animate={{ width: `${loadingProgress}%` }}
-                    transition={{ duration: 0.3, ease: "easeOut" }}
-                  />
+                  <div className="text-lg sm:text-xl font-mono font-bold">
+                    {currentPhase === 'starting' && <span className="text-yellow-400">🔥 ENGINE STARTING</span>}
+                    {currentPhase === 'engine-warming' && <span className="text-orange-400">🌡️ ENGINE WARMING</span>}
+                    {currentPhase === 'engine-active' && <span className="text-red-400">⚡ ENGINE ACTIVE</span>}
+                    {currentPhase === 'engine-ready' && <span className="text-purple-400">� ENGINE READY</span>}
+                    {currentPhase === 'complete' && <span className="text-green-400">✅ ENGINE COMPLETE</span>}
+                  </div>
                 </div>
               </div>
 
-              {/* F1 Loading Messages */}
+              {/* Engine Messages */}
               <motion.div
                 animate={{ opacity: [1, 0.6, 1] }}
                 transition={{ duration: 1.2, repeat: Infinity }}
                 className="text-gray-400 text-xs sm:text-sm font-mono px-4 text-center"
               >
-                {currentPhase === 'starting' && "F1 engine revving... 🔊 Audio active..."}
-                {currentPhase === 'loading' && loadingProgress < 25 && "Initializing ERS systems..."}
-                {currentPhase === 'loading' && loadingProgress >= 25 && loadingProgress < 50 && "Calibrating turbo hybrid unit..."}
-                {currentPhase === 'loading' && loadingProgress >= 50 && loadingProgress < 75 && "Loading telemetry systems..."}
-                {currentPhase === 'loading' && loadingProgress >= 75 && loadingProgress < 95 && "Synchronizing DRS activation..."}
-                {currentPhase === 'loading' && loadingProgress >= 95 && "Final system validation..."}
-                {currentPhase === 'complete' && "All F1 systems operational - Ready to race!"}
+                {currentPhase === 'starting' && "🔊 F1 engine firing up... Feel the power!"}
+                {currentPhase === 'engine-warming' && "�️ Engine warming... Temperature rising..."}
+                {currentPhase === 'engine-active' && "⚡ Engine active... Maximum power!"}
+                {currentPhase === 'engine-ready' && "� Engine ready... Let's race!"}
+                {currentPhase === 'complete' && "🚀 Engine primed and ready to go!"}
               </motion.div>
             </motion.div>
           )}
 
           {/* Racing Data Stream */}
-          <div className="absolute bottom-4 sm:bottom-8 left-0 right-0 overflow-hidden">
-            <motion.div
-              className="text-xs font-mono text-red-500/60 whitespace-nowrap px-2"
-              animate={isEngineStarted ? { x: ["-100%", "100%"] } : {}}
-              transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
-            >
-              <span className="hidden sm:inline">ENGINE_STATUS: {currentPhase.toUpperCase()} | TURBO: {isEngineStarted ? 'ACTIVE' : 'STANDBY'} | 
-              AUDIO: {isEngineStarted ? 'F1_REV_PLAYING' : 'F1_AUDIO_READY'} | 
-              SYSTEM: ENSHIFT_F1 | PERFORMANCE: {currentPhase === 'complete' ? 'MAXIMUM' : 'OPTIMIZING'} | 
-              READY_STATE: {currentPhase === 'complete' ? 'CONFIRMED' : 'PREPARING'}</span>
-              <span className="sm:hidden">F1_STATUS: {currentPhase.toUpperCase()} | TURBO: {isEngineStarted ? 'ON' : 'OFF'} | READY: {currentPhase === 'complete' ? 'YES' : 'NO'}</span>
-            </motion.div>
-          </div>
-        </div>
+          
+        </motion.div>
 
         {/* Particle Effects */}
         {isEngineStarted && (
