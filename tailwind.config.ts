@@ -60,7 +60,9 @@ const config: Config = {
         },
       },
       fontFamily: {
-        sans: ["Inter", "sans-serif"],
+        sans: ["var(--font-f1-turbo)", "Inter", "sans-serif"],
+        "f1-turbo": ["var(--font-f1-turbo)", "sans-serif"],
+        "f1-torque": ["var(--font-f1-torque)", "sans-serif"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-in-out",
