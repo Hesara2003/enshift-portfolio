@@ -1853,6 +1853,9 @@ export default function EnshiftPortfolio() {
         }
       `}</style>
       
+      {/* Cinematic Film Grain Overlay */}
+      <div className="cinematic-grain"></div>
+      
     <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
       {/* Navigation */}
       <Navbar />
@@ -1861,8 +1864,41 @@ export default function EnshiftPortfolio() {
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-950 via-black to-gray-900"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-950 via-black to-gray-900 cinematic-depth-blur cinematic-color-grade"
       >
+        {/* Cinematic Lens Flare Effects */}
+        <div className="cinematic-lens-flare">
+          <div className="lens-flare-element flare-1"></div>
+          <div className="lens-flare-element flare-2"></div>
+          <div className="lens-flare-element flare-3"></div>
+        </div>
+
+        {/* Cinematic Light Rays */}
+        <div className="cinematic-light-rays">
+          <div className="light-ray ray-1"></div>
+          <div className="light-ray ray-2"></div>
+          <div className="light-ray ray-3"></div>
+          <div className="light-ray ray-4"></div>
+          <div className="light-ray ray-5"></div>
+        </div>
+
+        {/* Cinematic Spotlight Effects */}
+        <div className="cinematic-spotlight"></div>
+
+        {/* Cinematic Anamorphic Flares */}
+        <div className="cinematic-anamorphic anamorphic-1"></div>
+        <div className="cinematic-anamorphic anamorphic-2"></div>
+
+        {/* Cinematic Bokeh Particles */}
+        <div className="cinematic-bokeh">
+          <div className="bokeh-particle bokeh-1"></div>
+          <div className="bokeh-particle bokeh-2"></div>
+          <div className="bokeh-particle bokeh-3"></div>
+          <div className="bokeh-particle bokeh-4"></div>
+        </div>
+
+        {/* Cinematic Vignette */}
+        <div className="cinematic-vignette"></div>
         {/* Modern Racing Grid Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="grid grid-cols-16 h-full">
