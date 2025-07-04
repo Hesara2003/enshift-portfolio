@@ -1588,7 +1588,7 @@ export default function EnshiftPortfolio() {
     label,
     delay = 0,
     inView,
-    className = "text-f1-red",
+    className = "text-red-600",
   }: {
     end: number
     suffix?: string
@@ -1659,7 +1659,7 @@ export default function EnshiftPortfolio() {
     return (
       <div className="w-full bg-gray-800 h-2 relative overflow-hidden">
         <motion.div
-          className="h-full bg-gradient-to-r from-f1-red to-red-400"
+          className="h-full bg-gradient-to-r from-red-600 to-red-400"
           initial={{ width: 0 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
         />
@@ -1719,8 +1719,8 @@ export default function EnshiftPortfolio() {
           transition={{ duration: 1.5, ease: "easeOut" }}
         />
 
-        <div className="absolute top-8 left-1/2 w-2 h-2 bg-f1-red rounded-full transform -translate-x-1/2" />
-        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-f1-red text-lg font-bold">
+        <div className="absolute top-8 left-1/2 w-2 h-2 bg-red-600 rounded-full transform -translate-x-1/2" />
+        <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 text-red-600 text-lg font-bold">
           {value}
         </div>
       </motion.div>
@@ -1777,6 +1777,82 @@ export default function EnshiftPortfolio() {
   }, [])
 
   return (
+    <>
+      {/* Custom Animations Styles */}
+      <style jsx>{`
+        @keyframes slideInRight {
+          0% { width: 0%; }
+          50% { width: 100%; }
+          100% { width: 0%; }
+        }
+        @keyframes slideInLeft {
+          0% { width: 0%; right: 0; }
+          50% { width: 100%; right: 0; }
+          100% { width: 0%; right: 0; }
+        }
+        @keyframes fadeInScale {
+          0% { opacity: 0; transform: scale(0.8); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        @keyframes marquee {
+          0% { transform: translateX(100%); }
+          100% { transform: translateX(-100%); }
+        }
+        @keyframes fadeInUp {
+          0% { opacity: 0; transform: translateY(30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInDown {
+          0% { opacity: 0; transform: translateY(-30px); }
+          100% { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+          0% { opacity: 0; }
+          100% { opacity: 1; }
+        }
+        @keyframes slideInLeft {
+          0% { opacity: 0; transform: translateX(-50px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+          0% { opacity: 0; transform: translateX(50px); }
+          100% { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes gradient {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+        @keyframes loadingBar {
+          0% { transform: translateX(-100%); }
+          50% { transform: translateX(0%); }
+          100% { transform: translateX(100%); }
+        }
+        @keyframes scanLine {
+          0% { transform: translateY(-100vh); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateY(100vh); opacity: 0; }
+        }
+        @keyframes verticalScan {
+          0% { transform: translateX(-100vw); opacity: 0; }
+          50% { opacity: 1; }
+          100% { transform: translateX(100vw); opacity: 0; }
+        }
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        @keyframes floatRotate {
+          0% { transform: translateY(0px) rotate(0deg); }
+          25% { transform: translateY(-10px) rotate(90deg); }
+          50% { transform: translateY(-20px) rotate(180deg); }
+          75% { transform: translateY(-10px) rotate(270deg); }
+          100% { transform: translateY(0px) rotate(360deg); }
+        }
+        .animate-float {
+          animation: float 3s ease-in-out infinite;
+        }
+      `}</style>
+      
     <div className="min-h-screen bg-gray-50 text-gray-900 overflow-x-hidden">
       {/* Navigation */}
       <Navbar />
@@ -1785,143 +1861,235 @@ export default function EnshiftPortfolio() {
       <section
         id="hero"
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black racing-hero-section"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-gray-950 via-black to-gray-900"
       >
-        {/* Racing Grid Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
+        {/* Modern Racing Grid Background Pattern */}
+        <div className="absolute inset-0 opacity-5">
           <div className="grid grid-cols-16 h-full">
             {Array.from({ length: 16 }).map((_, i) => (
-              <div key={i} className="border-r border-f1-red/20 h-full" />
+              <div 
+                key={i} 
+                className="border-r border-red-600/20 h-full bg-gradient-to-b from-red-600/5 via-transparent to-red-600/5 animate-pulse" 
+                style={{ animationDelay: `${i * 0.1}s`, animationDuration: '3s' }}
+              />
             ))}
           </div>
         </div>
 
-        {/* F1 Racing Lines */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-f1-red via-red-400 to-f1-red racing-line-animation" />
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-f1-red via-red-400 to-f1-red racing-line-animation" />
+        {/* Dynamic F1 Racing Lines with Enhanced Animations */}
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse" />
+        <div className="absolute top-0 left-0 w-0 h-2 bg-gradient-to-r from-red-600 via-orange-500 to-red-600 animate-[slideInRight_4s_ease-in-out_infinite]" />
+        <div className="absolute top-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60 animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60 animate-pulse" style={{ animationDelay: '2s' }} />
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-0 h-2 bg-gradient-to-r from-red-600 via-orange-500 to-red-600 animate-[slideInLeft_4s_ease-in-out_infinite]" style={{ animationDelay: '2s' }} />
 
-        {/* Speed Lines Animation */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="hero-speed-lines"></div>
-        </div>
-
-        {/* Racing Corner Accents */}
-        <div className="racing-corner-accent top-left"></div>
-        <div className="racing-corner-accent top-right"></div>
-        <div className="racing-corner-accent bottom-left"></div>
-        <div className="racing-corner-accent bottom-right"></div>
-
-        {/* Racing Data Stream */}
-        <div className="absolute top-4 left-0 right-0 overflow-hidden">
-          <div className="racing-data-stream">
-            ENGINE_STATUS: TURBOCHARGED | PERFORMANCE: MAX | SPEED: 320KM/H | POSITION: POLE | SYSTEM: ENSHIFT_RACING
+        {/* Enhanced Speed Lines Animation with Multiple Layers */}
+        <div className="absolute inset-0 overflow-hidden opacity-10">
+          <div className="w-full h-full bg-gradient-to-r from-transparent via-red-600/20 to-transparent animate-pulse"></div>
+          <div className="absolute inset-0 w-full h-full">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div 
+                key={i}
+                className="absolute w-px h-full bg-gradient-to-b from-transparent via-red-600/30 to-transparent animate-bounce"
+                style={{ 
+                  left: `${15 + i * 15}%`, 
+                  animationDelay: `${i * 0.3}s`,
+                  animationDuration: '2s'
+                }}
+              />
+            ))}
           </div>
         </div>
 
-        {/* Background Image with Parallax */}
+        {/* Enhanced Racing Corner Accents with Staggered Animations */}
+        <div className="absolute top-6 left-6 w-12 h-12 border-l-2 border-t-2 border-red-600/60 opacity-0 animate-[fadeInScale_1s_ease-out_0.5s_forwards]"></div>
+        <div className="absolute top-6 right-6 w-12 h-12 border-r-2 border-t-2 border-orange-500/60 opacity-0 animate-[fadeInScale_1s_ease-out_0.7s_forwards]"></div>
+        <div className="absolute bottom-6 left-6 w-12 h-12 border-l-2 border-b-2 border-orange-500/60 opacity-0 animate-[fadeInScale_1s_ease-out_0.9s_forwards]"></div>
+        <div className="absolute bottom-6 right-6 w-12 h-12 border-r-2 border-b-2 border-red-600/60 opacity-0 animate-[fadeInScale_1s_ease-out_1.1s_forwards]"></div>
+
+        {/* Enhanced Racing Data Stream with Sliding Animation */}
+        <div className="absolute top-8 left-0 right-0 overflow-hidden">
+          <div className="text-xs font-mono text-red-500 whitespace-nowrap opacity-80 animate-[marquee_15s_linear_infinite]">
+            ENGINE_STATUS: TURBOCHARGED | PERFORMANCE: MAX | SPEED: 320KM/H | POSITION: POLE | SYSTEM: ENSHIFT_RACING | ENGINE_STATUS: TURBOCHARGED | PERFORMANCE: MAX | SPEED: 320KM/H | POSITION: POLE | SYSTEM: ENSHIFT_RACING
+          </div>
+        </div>
+
+        {/* Background Image with Enhanced Parallax */}
         <div className="absolute inset-0">
           <div
             ref={heroBgRef}
-            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-60 bg-image-optimized"
+            className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat opacity-40"
             style={{
               backgroundImage: "url('/images/f1-hero-bg.png')",
               zIndex: 1,
             }}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-black/20" style={{ zIndex: 2 }} />
+          <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-gray-900/60 to-black/80" style={{ zIndex: 2 }} />
         </div>
 
-        {/* Racing HUD Container */}
-        <div className="racing-hud-container racing-hud-glow p-8 relative z-10">
-          {/* Hero Content */}
-          <div ref={heroContentRef} className="container mx-auto px-6 text-center">
-            {/* System Status */}
-            <div className="racing-system-status mb-6">
-              <div className="text-f1-red text-sm font-bold uppercase tracking-wider font-mono flex items-center justify-center gap-2">
-                <span className="w-2 h-2 bg-f1-red rounded-full animate-pulse"></span>
-                <span className="w-2 h-2 bg-f1-red rounded-full animate-pulse"></span>
+        {/* Modern Racing HUD Container with Glassmorphism */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 lg:px-8">
+          <div className="bg-black/20 backdrop-blur-md border border-red-600/20 rounded-3xl p-8 lg:p-12 shadow-2xl shadow-red-600/10 hover:shadow-red-600/20 transition-all duration-500 animate-[fadeInUp_1s_ease-out_0.5s_both] hover:scale-[1.02]">
+            {/* Hero Content */}
+            <div ref={heroContentRef} className="text-center">
+              {/* Enhanced System Status with Floating Animation */}
+              <div className="mb-8 animate-[fadeInDown_1s_ease-out_0.8s_both]">
+                <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full border border-red-600/30 bg-black/40 backdrop-blur-sm hover:border-red-600/50 transition-all duration-300 animate-float">
+                  <div className="w-2 h-2 bg-red-600 rounded-full animate-ping"></div>
+                  <span className="text-red-500 text-sm font-mono font-bold tracking-wider uppercase">System Online</span>
+                  <div className="w-2 h-2 bg-red-600 rounded-full animate-ping" style={{ animationDelay: '0.5s' }}></div>
+                </div>
               </div>
-            </div>
 
-            {/* Main Title */}
-            <h1 className="racing-hero-title text-6xl md:text-8xl font-bold mb-6 text-white leading-tight">
-              ELEVATE YOUR
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-f1-red via-red-400 to-orange-500 racing-title-glow">
-                DIGITAL PRESENCE
-              </span>
-            </h1>
-
-            {/* Racing Subtitle */}
-            <p className="racing-hero-subtitle text-xl md:text-2xl mb-8 text-gray-300 max-w-3xl mx-auto">
-              We create immersive digital experiences that captivate audiences and drive results. Transform your brand with cutting-edge design and innovative technology.
-            </p>
-
-            {/* Racing HUD Status Bar */}
-            <div className="racing-hud-status-bar mx-auto w-64 mb-8"></div>
-
-            {/* Racing Control Buttons */}
-            <div className="racing-controls flex flex-col sm:flex-row items-center justify-center gap-4">
-              <Button
-                size="lg"
-                className="racing-btn-primary bg-gradient-to-r from-f1-red to-red-600 hover:from-red-600 hover:to-red-700 text-white border-0 px-8 py-4 text-lg font-bold uppercase tracking-wider relative overflow-hidden group"
-              >
-                <span className="relative z-10 flex items-center">
-                  GET STARTED
-                  <ArrowRight className="ml-2 w-5 h-5" />
+              {/* Enhanced Main Title with Staggered Entrance */}
+              <h1 className="text-5xl md:text-7xl lg:text-8xl xl:text-9xl font-black mb-8 leading-none">
+                <span className="block text-white mb-2 animate-[slideInLeft_1s_ease-out_1s_both] hover:animate-pulse">ELEVATE YOUR</span>
+                <span className="block bg-gradient-to-r from-red-600 via-orange-500 to-red-600 bg-clip-text text-transparent animate-[slideInRight_1s_ease-out_1.2s_both] hover:animate-bounce bg-[length:200%_100%]">
+                  DIGITAL PRESENCE
                 </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-red-400 to-orange-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </Button>
-              <Button
-                variant="outline"
-                size="lg"
-                className="racing-btn-secondary border-2 border-f1-red text-f1-red hover:bg-f1-red hover:text-white px-8 py-4 text-lg font-bold uppercase tracking-wider bg-transparent transition-all duration-300"
-              >
-                <Play className="mr-2 w-5 h-5" />
-                WATCH DEMO
-              </Button>
-            </div>
+              </h1>
 
-            {/* Racing Performance Indicators */}
-            <div className="racing-performance-indicators mt-12 grid grid-cols-2 md:grid-cols-4 gap-6">
-              <div className="racing-indicator">
-                <div className="racing-indicator-value text-f1-red text-2xl font-bold mb-2">320+</div>
-                <div className="racing-indicator-label text-gray-400 text-sm uppercase tracking-wider">Projects</div>
+              {/* Enhanced Racing Subtitle with Typing Effect */}
+              <p className="text-lg md:text-xl lg:text-2xl mb-12 text-gray-300 max-w-4xl mx-auto leading-relaxed animate-[fadeIn_1s_ease-out_1.5s_both]">
+                We create immersive digital experiences that captivate audiences and drive results. 
+                <span className="text-red-500 font-semibold animate-pulse"> Transform your brand</span> with cutting-edge design and 
+                <span className="text-orange-500 font-semibold animate-pulse" style={{ animationDelay: '1s' }}> innovative technology</span>.
+              </p>
+
+              {/* Enhanced Racing HUD Status Bar with Loading Animation */}
+              <div className="mx-auto w-80 h-1 bg-gray-700/50 mb-12 rounded-full overflow-hidden animate-[fadeIn_1s_ease-out_1.8s_both]">
+                <div className="h-full bg-gradient-to-r from-red-600 via-orange-500 to-red-600 animate-[loadingBar_3s_ease-in-out_infinite] rounded-full"></div>
               </div>
-              <div className="racing-indicator">
-                <div className="racing-indicator-value text-f1-red text-2xl font-bold mb-2">98%</div>
-                <div className="racing-indicator-label text-gray-400 text-sm uppercase tracking-wider">Success Rate</div>
+
+              {/* Enhanced Racing Control Buttons with Hover Animations */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-16 animate-[fadeInUp_1s_ease-out_2s_both]">
+                <Button
+                  size="lg"
+                  className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white border-0 px-10 py-6 text-lg font-bold uppercase tracking-wider relative overflow-hidden group shadow-xl shadow-red-600/30 hover:shadow-red-600/50 transition-all duration-300 hover:scale-110 hover:-translate-y-1 animate-pulse hover:animate-none"
+                >
+                  <span className="relative z-10 flex items-center">
+                    GET STARTED
+                    <ArrowRight className="ml-3 w-6 h-6 group-hover:translate-x-1 transition-transform duration-300" />
+                  </span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                  <div className="absolute inset-0 bg-white/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left"></div>
+                </Button>
+                <Button
+                  variant="outline"
+                  size="lg"
+                  className="border-2 border-red-600 text-red-600 hover:bg-red-600 hover:text-white px-10 py-6 text-lg font-bold uppercase tracking-wider bg-black/20 backdrop-blur-sm transition-all duration-300 shadow-lg hover:shadow-red-600/30 hover:scale-110 hover:-translate-y-1 group"
+                >
+                  <Play className="mr-3 w-6 h-6 group-hover:scale-125 transition-transform duration-300" />
+                  WATCH DEMO
+                </Button>
               </div>
-              <div className="racing-indicator">
-                <div className="racing-indicator-value text-f1-red text-2xl font-bold mb-2">5+</div>
-                <div className="racing-indicator-label text-gray-400 text-sm uppercase tracking-wider">Years Racing</div>
-              </div>
-              <div className="racing-indicator">
-                <div className="racing-indicator-value text-f1-red text-2xl font-bold mb-2">24/7</div>
-                <div className="racing-indicator-label text-gray-400 text-sm uppercase tracking-wider">Pit Support</div>
+
+              {/* Enhanced Racing Performance Dashboard with Staggered Animations */}
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+                {[
+                  { value: "320+", label: "Projects", icon: "🏁" },
+                  { value: "98%", label: "Success Rate", icon: "🏆" },
+                  { value: "5+", label: "Years Racing", icon: "⚡" },
+                  { value: "24/7", label: "Pit Support", icon: "🔧" },
+                ].map((stat, index) => (
+                  <div 
+                    key={index} 
+                    className="group animate-[fadeInUp_1s_ease-out_both]"
+                    style={{ animationDelay: `${2.5 + index * 0.2}s` }}
+                  >
+                    <div className="bg-black/30 backdrop-blur-sm border border-red-600/20 rounded-xl p-6 hover:border-red-600/40 transition-all duration-300 hover:shadow-lg hover:shadow-red-600/20 hover:scale-105 hover:-translate-y-2 cursor-pointer">
+                      <div className="text-2xl mb-2 animate-bounce group-hover:animate-spin" style={{ animationDelay: `${index * 0.5}s` }}>{stat.icon}</div>
+                      <div className="text-red-600 text-3xl lg:text-4xl font-black mb-2 group-hover:text-orange-500 transition-colors duration-300 animate-pulse group-hover:animate-bounce">
+                        {stat.value}
+                      </div>
+                      <div className="text-gray-400 text-sm uppercase tracking-wider font-semibold group-hover:text-gray-300 transition-colors duration-300">
+                        {stat.label}
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Racing Scan Lines Effect */}
-        <div className="absolute inset-0 opacity-20 pointer-events-none">
-          <div className="racing-scan-lines"></div>
+        {/* Enhanced Racing Scan Lines Effect with Multiple Layers */}
+        <div className="absolute inset-0 opacity-10 pointer-events-none overflow-hidden">
+          <div className="w-full h-full bg-gradient-to-b from-transparent via-red-600/20 to-transparent animate-pulse"></div>
+          {/* Horizontal Scan Lines */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <div 
+                key={i}
+                className="absolute w-full h-px bg-gradient-to-r from-transparent via-red-600/40 to-transparent animate-[scanLine_4s_linear_infinite]"
+                style={{ 
+                  top: `${20 + i * 20}%`,
+                  animationDelay: `${i * 0.8}s`
+                }}
+              />
+            ))}
+          </div>
+          {/* Vertical Scan Lines */}
+          <div className="absolute inset-0">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <div 
+                key={i}
+                className="absolute w-px h-full bg-gradient-to-b from-transparent via-orange-500/30 to-transparent animate-[verticalScan_6s_linear_infinite]"
+                style={{ 
+                  left: `${30 + i * 20}%`,
+                  animationDelay: `${i * 1.5}s`
+                }}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* Floating Racing Elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          {/* Floating F1 Icons */}
+          {Array.from({ length: 8 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute text-red-600/20 text-4xl animate-[float_6s_ease-in-out_infinite]"
+              style={{
+                left: `${10 + i * 12}%`,
+                top: `${15 + (i % 3) * 25}%`,
+                animationDelay: `${i * 0.7}s`,
+                animationDuration: `${4 + i % 3}s`
+              }}
+            >
+              🏎️
+            </div>
+          ))}
+          
+          {/* Floating Geometric Shapes */}
+          {Array.from({ length: 6 }).map((_, i) => (
+            <div
+              key={i}
+              className="absolute w-2 h-2 border border-orange-500/30 rotate-45 animate-[floatRotate_8s_linear_infinite]"
+              style={{
+                right: `${5 + i * 15}%`,
+                top: `${10 + (i % 4) * 20}%`,
+                animationDelay: `${i * 1.2}s`
+              }}
+            />
+          ))}
         </div>
       </section>
 
       {/* F1 Racing Video Section */}
       
 
-      {/* F1 Sliding Cards About Section */}
+      {/* F1 Modern About Section */}
       <section 
         id="about" 
         ref={aboutRef} 
-        className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden"
+        className="py-16 md:py-24 lg:py-32 bg-gradient-to-br from-gray-950 via-black to-gray-900 relative overflow-hidden"
       >
         {/* F1 About Background with Parallax */}
         <motion.div
-          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-20 motion-div"
+          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-15 motion-div"
           style={{
             backgroundImage: "url('/images/f1-about-bg.png')",
             y: aboutParallaxY,
@@ -1930,113 +2098,120 @@ export default function EnshiftPortfolio() {
             backgroundRepeat: 'no-repeat',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-gray-900/75 to-black/90" />
         
-        {/* Racing Grid Background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="racing-grid-pattern"></div>
-        </div>
-
-        {/* F1 Speed Lines */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="f1-speed-lines"></div>
-        </div>
-
-        {/* Racing Data Stream */}
-        <div className="absolute top-2 sm:top-4 left-0 right-0 overflow-hidden z-10">
-          <div className="f1-data-stream text-xs sm:text-sm">
-            <span className="hidden sm:inline">TELEMETRY: ACTIVE | PERFORMANCE: 98.7% | STATUS: CHAMPIONSHIP MODE | CLIENTS: 150+ | PROJECTS: DEPLOYED</span>
-            <span className="sm:hidden">TELEMETRY: ACTIVE | PERFORMANCE: 98.7%</span>
+        {/* Modern Racing Grid Background */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="grid grid-cols-12 gap-px h-full">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="bg-gradient-to-b from-red-600/20 via-transparent to-red-600/20" />
+            ))}
           </div>
         </div>
 
-        <div className="container mx-auto px-3 sm:px-4 lg:px-6 relative z-20">
-          {/* Section Header */}
-          <div className="text-center mb-8 sm:mb-10 lg:mb-16">
-            <div className="f1-status-indicator text-f1-red mb-3 sm:mb-4 text-xs sm:text-sm">
-              <span className="inline-block w-1.5 sm:w-2 h-1.5 sm:h-2 bg-f1-red rounded-full animate-pulse mr-2"></span>
-              ABOUT ENSHIFT
-              <span className="inline-block w-1.5 sm:w-2 h-1.5 sm:h-2 bg-f1-red rounded-full animate-pulse ml-2"></span>
+        {/* Dynamic F1 Racing Lines */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
+        <div className="absolute top-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60"></div>
+        <div className="absolute bottom-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60"></div>
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
+
+  
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-20">
+          {/* Modern Section Header */}
+          <div className="text-center mb-16 lg:mb-24">
+            {/* F1 Status Indicator */}
+            <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-red-600/30 bg-black/40 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
+              <span className="text-red-500 text-sm font-mono font-bold tracking-wider uppercase">About Enshift</span>
+              <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl mb-4 sm:mb-6 text-white leading-tight">
-              CHAMPIONSHIP
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-f1-red to-orange-500">
+            
+            {/* Modern Title */}
+            <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-none">
+              <span className="block text-white">CHAMPIONSHIP</span>
+              <span className="block bg-gradient-to-r from-red-600 via-orange-500 to-red-600 bg-clip-text text-transparent">
                 ENGINEERING
               </span>
             </h2>
-            <div className="f1-divider mx-auto w-16 sm:w-24 md:w-32 h-0.5 sm:h-1 bg-gradient-to-r from-f1-red to-orange-500 mb-4 sm:mb-6"></div>
-            <p className="f1-body text-base sm:text-lg md:text-xl text-gray-300 max-w-3xl mx-auto px-2 sm:px-4 leading-relaxed">
-              Racing ahead of the competition with precision engineering and championship-level performance
+            
+            {/* Modern Divider */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-red-600"></div>
+              <div className="w-3 h-3 border-2 border-red-600 rotate-45"></div>
+              <div className="w-24 h-px bg-gradient-to-r from-red-600 to-orange-500"></div>
+              <div className="w-3 h-3 border-2 border-orange-500 rotate-45"></div>
+              <div className="w-12 h-px bg-gradient-to-r from-orange-500 to-transparent"></div>
+            </div>
+            
+            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Racing ahead of the competition with <span className="text-red-500 font-semibold">precision engineering</span> and 
+              <span className="text-orange-500 font-semibold"> championship-level performance</span>
             </p>
           </div>
 
-          {/* F1 Racing Cards Grid */}
-          <div className="f1-racing-cards-grid grid grid-cols-1 xl:grid-cols-2 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-10 lg:mb-12">
+          {/* Modern F1 Bento Grid Layout */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 mb-16">
             
-            {/* Card 1 - Mission Control */}
-            <div className="f1-racing-card f1-card-1">
-              <div className="f1-card-inner bg-gradient-to-br from-gray-800 to-gray-900 border border-f1-red/30 p-4 sm:p-6 lg:p-8 rounded-lg relative overflow-hidden">
-                <div className="f1-card-scan-line"></div>
-                <div className="f1-card-header flex items-center justify-between mb-3 sm:mb-4 lg:mb-6">
-                  <div className="flex items-center">
-                    <div className="f1-status-light bg-green-400 w-2 sm:w-3 h-2 sm:h-3 rounded-full animate-pulse mr-2 sm:mr-3"></div>
-                    <h3 className="f1-subtitle text-lg sm:text-xl lg:text-2xl text-white">MISSION CONTROL</h3>
-                  </div>
-                  <div className="f1-card-number text-f1-red font-bold text-base sm:text-lg">01</div>
-                </div>
-                <div className="f1-card-content">
-                  <p className="f1-body text-gray-300 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 leading-relaxed">
-                    To be the catalyst that propels brands into the future, creating digital experiences 
-                    that not only meet today's needs but anticipate tomorrow's possibilities.
-                  </p>
-                  <div className="f1-metrics-grid grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
-                    <div className="f1-metric text-center">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400 mb-1 sm:mb-2">150+</div>
-                      <div className="text-xs sm:text-sm text-gray-400 uppercase">Projects Complete</div>
+            {/* Main Mission Control - Large Modern Card */}
+            <div className="lg:col-span-7 group">
+              <div className="relative h-full min-h-[400px] lg:min-h-[500px] bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-red-600/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-red-600/40 hover:shadow-2xl hover:shadow-red-600/10">
+                {/* Modern Scan Line Animation */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 left-0 w-0 h-px bg-red-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                
+                {/* Corner Accents */}
+                <div className="absolute top-4 left-4 w-8 h-8 border-l-2 border-t-2 border-red-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4 w-8 h-8 border-r-2 border-t-2 border-orange-500/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 left-4 w-8 h-8 border-l-2 border-b-2 border-orange-500/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 right-4 w-8 h-8 border-r-2 border-b-2 border-red-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="p-8 lg:p-10 h-full flex flex-col">
+                  {/* Card Header */}
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-4">
+                      <div className="w-4 h-4 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                      <h3 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">MISSION CONTROL</h3>
                     </div>
-                    <div className="f1-metric text-center">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-green-400 mb-1 sm:mb-2">50+</div>
-                      <div className="text-xs sm:text-sm text-gray-400 uppercase">Happy Clients</div>
+                    <div className="px-4 py-2 bg-red-600/20 border border-red-600/40 rounded-lg">
+                      <span className="text-red-500 font-mono font-bold text-lg">01</span>
                     </div>
                   </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Card 2 - Performance Matrix */}
-            <div className="f1-racing-card f1-card-2">
-              <div className="f1-card-inner bg-gradient-to-br from-gray-800 to-gray-900 border border-orange-500/30 p-4 sm:p-6 lg:p-8 rounded-lg relative overflow-hidden">
-                <div className="f1-card-scan-line"></div>
-                <div className="f1-card-header flex items-center justify-between mb-3 sm:mb-4 lg:mb-6">
-                  <div className="flex items-center">
-                    <div className="f1-status-light bg-orange-500 w-2 sm:w-3 h-2 sm:h-3 rounded-full animate-pulse mr-2 sm:mr-3"></div>
-                    <h3 className="f1-subtitle text-lg sm:text-xl lg:text-2xl text-white">PERFORMANCE MATRIX</h3>
-                  </div>
-                  <div className="f1-card-number text-orange-500 font-bold text-base sm:text-lg">02</div>
-                </div>
-                <div className="f1-card-content">
-                  <p className="f1-body text-gray-300 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 leading-relaxed">
-                    We combine strategic thinking with creative execution, ensuring every project delivers 
-                    measurable results while pushing the boundaries of what's possible.
-                  </p>
-                  <div className="f1-performance-bars space-y-3 sm:space-y-4">
-                    <div className="f1-perf-bar">
-                      <div className="flex justify-between mb-1 sm:mb-2">
-                        <span className="text-xs sm:text-sm text-gray-400">Client Satisfaction</span>
-                        <span className="text-orange-500 font-bold text-xs sm:text-sm">98%</span>
-                      </div>
-                      <div className="f1-progress-track bg-gray-700 h-1.5 sm:h-2 rounded-full overflow-hidden">
-                        <div className="f1-progress-fill bg-gradient-to-r from-orange-500 to-red-500 h-full rounded-full" style={{width: '98%'}}></div>
+                  
+                  {/* Card Content */}
+                  <div className="flex-1 space-y-8">
+                    <p className="text-lg lg:text-xl text-gray-300 leading-relaxed">
+                      To be the catalyst that propels brands into the future, creating digital experiences 
+                      that not only meet today's needs but <span className="text-orange-500 font-semibold">anticipate tomorrow's possibilities</span>.
+                    </p>
+                    
+                    {/* Modern Metrics Dashboard */}
+                    <div className="bg-black/40 backdrop-blur-sm border border-green-400/20 rounded-xl p-6">
+                      <div className="grid grid-cols-2 gap-8">
+                        <div className="text-center group/metric">
+                          <div className="text-4xl lg:text-5xl font-black text-green-400 mb-3 group-hover/metric:scale-110 transition-transform duration-300">150+</div>
+                          <div className="text-sm text-gray-400 uppercase tracking-widest font-medium">Projects Complete</div>
+                        </div>
+                        <div className="text-center group/metric">
+                          <div className="text-4xl lg:text-5xl font-black text-green-400 mb-3 group-hover/metric:scale-110 transition-transform duration-300">50+</div>
+                          <div className="text-sm text-gray-400 uppercase tracking-widest font-medium">Happy Clients</div>
+                        </div>
                       </div>
                     </div>
-                    <div className="f1-perf-bar">
-                      <div className="flex justify-between mb-1 sm:mb-2">
-                        <span className="text-xs sm:text-sm text-gray-400">Success Rate</span>
-                        <span className="text-orange-500 font-bold text-xs sm:text-sm">95%</span>
+                    
+                    {/* Modern Status Indicators */}
+                    <div className="grid grid-cols-3 gap-6">
+                      <div className="text-center group/status">
+                        <div className="w-6 h-6 bg-green-400 rounded-full mx-auto mb-3 animate-pulse shadow-lg shadow-green-400/50 group-hover/status:scale-125 transition-transform duration-300"></div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">OPERATIONAL</div>
                       </div>
-                      <div className="f1-progress-track bg-gray-700 h-1.5 sm:h-2 rounded-full overflow-hidden">
-                        <div className="f1-progress-fill bg-gradient-to-r from-orange-500 to-red-500 h-full rounded-full" style={{width: '95%'}}></div>
+                      <div className="text-center group/status">
+                        <div className="w-6 h-6 bg-orange-400 rounded-full mx-auto mb-3 animate-pulse shadow-lg shadow-orange-400/50 group-hover/status:scale-125 transition-transform duration-300"></div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">OPTIMIZED</div>
+                      </div>
+                      <div className="text-center group/status">
+                        <div className="w-6 h-6 bg-red-600 rounded-full mx-auto mb-3 animate-pulse shadow-lg shadow-red-600/50 group-hover/status:scale-125 transition-transform duration-300"></div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">CHAMPION</div>
                       </div>
                     </div>
                   </div>
@@ -2044,84 +2219,79 @@ export default function EnshiftPortfolio() {
               </div>
             </div>
 
-            {/* Card 3 - Championship Stats */}
-            <div className="f1-racing-card f1-card-3">
-              <div className="f1-card-inner bg-gradient-to-br from-gray-800 to-gray-900 border border-blue-500/30 p-4 sm:p-6 lg:p-8 rounded-lg relative overflow-hidden">
-                <div className="f1-card-scan-line"></div>
-                <div className="f1-card-header flex items-center justify-between mb-3 sm:mb-4 lg:mb-6">
-                  <div className="flex items-center">
-                    <div className="f1-status-light bg-blue-500 w-2 sm:w-3 h-2 sm:h-3 rounded-full animate-pulse mr-2 sm:mr-3"></div>
-                    <h3 className="f1-subtitle text-lg sm:text-xl lg:text-2xl text-white">CHAMPIONSHIP STATS</h3>
-                  </div>
-                  <div className="f1-card-number text-blue-500 font-bold text-base sm:text-lg">03</div>
-                </div>
-                <div className="f1-card-content">
-                  <p className="f1-body text-gray-300 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 leading-relaxed">
-                    Championship-level performance across all metrics, delivering excellence 
-                    that sets new industry standards.
-                  </p>
-                  <div className="f1-stats-grid grid grid-cols-2 gap-3 sm:gap-4 lg:gap-6">
-                    <div className="f1-stat-item text-center">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-500 mb-1 sm:mb-2">5+</div>
-                      <div className="text-xs sm:text-sm text-gray-400 uppercase">Years Racing</div>
+            {/* Right Column - Stacked Cards */}
+            <div className="lg:col-span-5 space-y-6 lg:space-y-8">
+              {/* Performance Matrix */}
+              <div className="group">
+                <div className="relative bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-orange-500/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-500/40 hover:shadow-xl hover:shadow-orange-500/10">
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="p-6 lg:p-8">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-orange-500 rounded-full animate-pulse shadow-lg shadow-orange-500/50"></div>
+                        <h3 className="text-xl lg:text-2xl font-bold text-white">PERFORMANCE</h3>
+                      </div>
+                      <div className="px-3 py-1 bg-orange-500/20 border border-orange-500/40 rounded-lg">
+                        <span className="text-orange-500 font-mono font-bold">02</span>
+                      </div>
                     </div>
-                    <div className="f1-stat-item text-center">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-500 mb-1 sm:mb-2">24/7</div>
-                      <div className="text-xs sm:text-sm text-gray-400 uppercase">Pit Support</div>
+                    
+                    <div className="space-y-6">
+                      <div className="group/bar">
+                        <div className="flex justify-between mb-3">
+                          <span className="text-sm text-gray-400 font-medium">Client Satisfaction</span>
+                          <span className="text-orange-500 font-bold text-sm">98%</span>
+                        </div>
+                        <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-1000 group-hover/bar:shadow-lg group-hover/bar:shadow-orange-500/30" style={{width: '98%'}}></div>
+                        </div>
+                      </div>
+                      
+                      <div className="group/bar">
+                        <div className="flex justify-between mb-3">
+                          <span className="text-sm text-gray-400 font-medium">Success Rate</span>
+                          <span className="text-orange-500 font-bold text-sm">95%</span>
+                        </div>
+                        <div className="h-3 bg-gray-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-1000 group-hover/bar:shadow-lg group-hover/bar:shadow-orange-500/30" style={{width: '95%'}}></div>
+                        </div>
+                      </div>
                     </div>
-                    <div className="f1-stat-item text-center">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-500 mb-1 sm:mb-2">100%</div>
-                      <div className="text-xs sm:text-sm text-gray-400 uppercase">On-Time Delivery</div>
-                    </div>
-                    <div className="f1-stat-item text-center">
-                      <div className="text-xl sm:text-2xl lg:text-3xl font-bold text-blue-500 mb-1 sm:mb-2">300%</div>
-                      <div className="text-xs sm:text-sm text-gray-400 uppercase">ROI Boost</div>
+                    
+                    <div className="mt-8 text-center">
+                      <div className="text-4xl font-black text-orange-500 mb-2">A+</div>
+                      <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">RATING</div>
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            {/* Card 4 - Technology Stack */}
-            <div className="f1-racing-card f1-card-4">
-              <div className="f1-card-inner bg-gradient-to-br from-gray-800 to-gray-900 border border-f1-orange/30 p-4 sm:p-6 lg:p-8 rounded-lg relative overflow-hidden">
-                <div className="f1-card-scan-line"></div>
-                <div className="f1-card-header flex items-center justify-between mb-3 sm:mb-4 lg:mb-6">
-                  <div className="flex items-center">
-                    <div className="f1-status-light bg-f1-orange w-2 sm:w-3 h-2 sm:h-3 rounded-full animate-pulse mr-2 sm:mr-3"></div>
-                    <h3 className="f1-subtitle text-lg sm:text-xl lg:text-2xl text-white">TECHNOLOGY STACK</h3>
-                  </div>
-                  <div className="f1-card-number text-f1-orange font-bold text-base sm:text-lg">04</div>
-                </div>
-                <div className="f1-card-content">
-                  <p className="f1-body text-gray-300 text-sm sm:text-base lg:text-lg mb-4 sm:mb-6 leading-relaxed">
-                    Cutting-edge technology arsenal that powers our championship-winning solutions, 
-                    optimized for maximum performance and reliability.
-                  </p>
-                  <div className="f1-tech-grid grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3 lg:gap-4">
-                    <div className="f1-tech-item bg-gray-700/50 p-2 sm:p-3 rounded text-center">
-                      <div className="text-f1-orange font-bold text-xs sm:text-sm">React</div>
-                      <div className="text-xs text-gray-400">Frontend</div>
+              {/* Championship Stats */}
+              <div className="group">
+                <div className="relative bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-blue-500/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-blue-500/40 hover:shadow-xl hover:shadow-blue-500/10">
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="p-6 lg:p-8">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full animate-pulse shadow-lg shadow-blue-500/50"></div>
+                        <h3 className="text-xl lg:text-2xl font-bold text-white">STATS</h3>
+                      </div>
+                      <div className="px-3 py-1 bg-blue-500/20 border border-blue-500/40 rounded-lg">
+                        <span className="text-blue-500 font-mono font-bold">03</span>
+                      </div>
                     </div>
-                    <div className="f1-tech-item bg-gray-700/50 p-2 sm:p-3 rounded text-center">
-                      <div className="text-f1-red font-bold text-xs sm:text-sm">Node.js</div>
-                      <div className="text-xs text-gray-400">Backend</div>
-                    </div>
-                    <div className="f1-tech-item bg-gray-700/50 p-2 sm:p-3 rounded text-center">
-                      <div className="text-f1-orange font-bold text-xs sm:text-sm">AWS</div>
-                      <div className="text-xs text-gray-400">Cloud</div>
-                    </div>
-                    <div className="f1-tech-item bg-gray-700/50 p-2 sm:p-3 rounded text-center">
-                      <div className="text-f1-red font-bold text-xs sm:text-sm">MongoDB</div>
-                      <div className="text-xs text-gray-400">Database</div>
-                    </div>
-                    <div className="f1-tech-item bg-gray-700/50 p-2 sm:p-3 rounded text-center">
-                      <div className="text-f1-orange font-bold text-xs sm:text-sm">Docker</div>
-                      <div className="text-xs text-gray-400">DevOps</div>
-                    </div>
-                    <div className="f1-tech-item bg-gray-700/50 p-2 sm:p-3 rounded text-center">
-                      <div className="text-f1-red font-bold text-xs sm:text-sm">AI/ML</div>
-                      <div className="text-xs text-gray-400">Intelligence</div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center bg-black/40 backdrop-blur-sm p-4 rounded-xl border border-blue-500/20 group/stat hover:border-blue-500/40 transition-all duration-300">
+                        <div className="text-3xl font-black text-blue-500 mb-2 group-hover/stat:scale-110 transition-transform duration-300">5+</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">Years Racing</div>
+                      </div>
+                      <div className="text-center bg-black/40 backdrop-blur-sm p-4 rounded-xl border border-blue-500/20 group/stat hover:border-blue-500/40 transition-all duration-300">
+                        <div className="text-3xl font-black text-blue-500 mb-2 group-hover/stat:scale-110 transition-transform duration-300">24/7</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">Pit Support</div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2129,52 +2299,191 @@ export default function EnshiftPortfolio() {
             </div>
           </div>
 
-          {/* F1 Championship Summary */}
-          <div className="f1-championship-summary bg-gradient-to-r from-gray-800 to-gray-900 border border-f1-red/30 p-4 sm:p-6 lg:p-8 rounded-lg">
-            <div className="text-center mb-4 sm:mb-6 lg:mb-8">
-              <div className="f1-status-indicator text-f1-red mb-3 sm:mb-4 text-xs sm:text-sm">
-                <span className="inline-block w-1.5 sm:w-2 h-1.5 sm:h-2 bg-f1-red rounded-full animate-pulse mr-2"></span>
-                CHAMPIONSHIP SUMMARY
-                <span className="inline-block w-1.5 sm:w-2 h-1.5 sm:h-2 bg-f1-red rounded-full animate-pulse ml-2"></span>
-              </div>
-              <h3 className="f1-subtitle text-xl sm:text-2xl lg:text-3xl text-white mb-3 sm:mb-4">POLE POSITION PERFORMANCE</h3>
-              <p className="f1-body text-sm sm:text-base lg:text-lg text-gray-300 max-w-2xl mx-auto px-2 sm:px-4 leading-relaxed">
-                Combining cutting-edge technology with championship-level execution to deliver 
-                unparalleled digital experiences that accelerate your business forward.
-              </p>
-            </div>
+          {/* Bottom Row - Technology Stack and Additional Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 lg:gap-8 mb-16">
             
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-8 text-center">
-              <div className="f1-summary-stat">
-                <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-f1-red mb-1 sm:mb-2">98.7%</div>
-                <div className="text-xs sm:text-sm text-gray-400 uppercase">Performance Score</div>
+            {/* Technology Stack - Wide Modern Card */}
+            <div className="lg:col-span-8 group">
+              <div className="relative bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-orange-600/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/40 hover:shadow-xl hover:shadow-orange-600/10">
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+                
+                <div className="p-6 lg:p-8">
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="w-3 h-3 bg-orange-600 rounded-full animate-pulse shadow-lg shadow-orange-600/50"></div>
+                      <h3 className="text-xl lg:text-2xl font-bold text-white">TECHNOLOGY STACK</h3>
+                    </div>
+                    <div className="px-3 py-1 bg-orange-600/20 border border-orange-600/40 rounded-lg">
+                      <span className="text-orange-600 font-mono font-bold">04</span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                    <div className="group/tech bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-orange-600/40 transition-all duration-300 hover:bg-gray-700/50">
+                      <div className="text-orange-600 font-bold text-base mb-1 group-hover/tech:text-orange-500 transition-colors duration-300">React</div>
+                      <div className="text-xs text-gray-400 font-medium">Frontend</div>
+                    </div>
+                    <div className="group/tech bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-red-600/40 transition-all duration-300 hover:bg-gray-700/50">
+                      <div className="text-red-600 font-bold text-base mb-1 group-hover/tech:text-red-500 transition-colors duration-300">Node.js</div>
+                      <div className="text-xs text-gray-400 font-medium">Backend</div>
+                    </div>
+                    <div className="group/tech bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-orange-600/40 transition-all duration-300 hover:bg-gray-700/50">
+                      <div className="text-orange-600 font-bold text-base mb-1 group-hover/tech:text-orange-500 transition-colors duration-300">AWS</div>
+                      <div className="text-xs text-gray-400 font-medium">Cloud</div>
+                    </div>
+                    <div className="group/tech bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-red-600/40 transition-all duration-300 hover:bg-gray-700/50">
+                      <div className="text-red-600 font-bold text-base mb-1 group-hover/tech:text-red-500 transition-colors duration-300">MongoDB</div>
+                      <div className="text-xs text-gray-400 font-medium">Database</div>
+                    </div>
+                    <div className="group/tech bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-orange-600/40 transition-all duration-300 hover:bg-gray-700/50">
+                      <div className="text-orange-600 font-bold text-base mb-1 group-hover/tech:text-orange-500 transition-colors duration-300">Docker</div>
+                      <div className="text-xs text-gray-400 font-medium">DevOps</div>
+                    </div>
+                    <div className="group/tech bg-gray-800/50 backdrop-blur-sm p-4 rounded-xl border border-gray-700/50 hover:border-red-600/40 transition-all duration-300 hover:bg-gray-700/50">
+                      <div className="text-red-600 font-bold text-base mb-1 group-hover/tech:text-red-500 transition-colors duration-300">AI/ML</div>
+                      <div className="text-xs text-gray-400 font-medium">Intelligence</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="f1-summary-stat">
-                <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-green-400 mb-1 sm:mb-2">24/7</div>
-                <div className="text-xs sm:text-sm text-gray-400 uppercase">Pit Crew Support</div>
+            </div>
+
+            {/* Team Expertise & Awards Combined */}
+            <div className="lg:col-span-4 space-y-6">
+              {/* Team Expertise */}
+              <div className="group">
+                <div className="relative bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-cyan-500/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-cyan-500/40 hover:shadow-xl hover:shadow-cyan-500/10">
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-cyan-500 rounded-full animate-pulse shadow-lg shadow-cyan-500/50"></div>
+                        <h3 className="text-lg lg:text-xl font-bold text-white">TEAM</h3>
+                      </div>
+                      <div className="px-3 py-1 bg-cyan-500/20 border border-cyan-500/40 rounded-lg">
+                        <span className="text-cyan-500 font-mono font-bold text-sm">05</span>
+                      </div>
+                    </div>
+                    
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="text-center bg-black/40 backdrop-blur-sm p-4 rounded-xl border border-cyan-500/20 group/stat hover:border-cyan-500/40 transition-all duration-300">
+                        <div className="text-2xl font-black text-cyan-500 mb-2 group-hover/stat:scale-110 transition-transform duration-300">12+</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">Experts</div>
+                      </div>
+                      <div className="text-center bg-black/40 backdrop-blur-sm p-4 rounded-xl border border-cyan-500/20 group/stat hover:border-cyan-500/40 transition-all duration-300">
+                        <div className="text-2xl font-black text-cyan-500 mb-2 group-hover/stat:scale-110 transition-transform duration-300">100%</div>
+                        <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">Remote</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="f1-summary-stat">
-                <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-500 mb-1 sm:mb-2">150+</div>
-                <div className="text-xs sm:text-sm text-gray-400 uppercase">Victories</div>
+
+              {/* Achievement Card */}
+              <div className="group">
+                <div className="relative bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-yellow-500/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-yellow-500/40 hover:shadow-xl hover:shadow-yellow-500/10">
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-yellow-500 to-transparent animate-pulse"></div>
+                  
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-3">
+                        <div className="w-3 h-3 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50"></div>
+                        <h3 className="text-lg lg:text-xl font-bold text-white">AWARDS</h3>
+                      </div>
+                      <div className="px-3 py-1 bg-yellow-500/20 border border-yellow-500/40 rounded-lg">
+                        <span className="text-yellow-500 font-mono font-bold text-sm">06</span>
+                      </div>
+                    </div>
+                    
+                    <div className="text-center">
+                      <div className="text-5xl mb-4 filter drop-shadow-lg">🏆</div>
+                      <div className="text-3xl font-black text-yellow-500 mb-2 group-hover:scale-110 transition-transform duration-300">15+</div>
+                      <div className="text-xs text-gray-400 uppercase tracking-wider font-medium">Industry Awards</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="f1-summary-stat">
-                <div className="text-xl sm:text-2xl lg:text-3xl xl:text-4xl font-bold text-orange-500 mb-1 sm:mb-2">5+</div>
-                <div className="text-xs sm:text-sm text-gray-400 uppercase">Championship Years</div>
+            </div>
+          </div>
+
+          {/* Modern F1 Championship Summary */}
+          <div className="relative group">
+            <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-red-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-red-600/50 hover:shadow-2xl hover:shadow-red-600/20">
+              {/* Top Racing Line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
+              <div className="absolute -top-1 left-0 w-0 h-px bg-red-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+              
+              {/* Corner Accents */}
+              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-orange-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-orange-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="p-8 lg:p-12">
+                <div className="text-center mb-12">
+                  {/* Championship Status */}
+                  <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-red-600/30 bg-black/40 backdrop-blur-sm">
+                    <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
+                    <span className="text-red-500 text-sm font-mono font-bold tracking-wider uppercase">Championship Summary</span>
+                    <div className="w-2 h-2 bg-red-600 rounded-full animate-pulse"></div>
+                  </div>
+                  
+                  <h3 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-6 leading-tight">
+                    POLE POSITION PERFORMANCE
+                  </h3>
+                  
+                  <p className="text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    Combining <span className="text-red-500 font-semibold">cutting-edge technology</span> with 
+                    <span className="text-orange-500 font-semibold"> championship-level execution</span> to deliver 
+                    unparalleled digital experiences that accelerate your business forward.
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                  <div className="text-center group/summary">
+                    <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-red-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-red-600 mb-4 group-hover/summary:scale-110 transition-transform duration-300">98.7%</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Performance Score</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/summary">
+                    <div className="bg-black/40 backdrop-blur-sm border border-green-400/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-green-400/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-green-400 mb-4 group-hover/summary:scale-110 transition-transform duration-300">24/7</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Pit Crew Support</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/summary">
+                    <div className="bg-black/40 backdrop-blur-sm border border-blue-500/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-blue-500/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-blue-500 mb-4 group-hover/summary:scale-110 transition-transform duration-300">150+</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Victories</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/summary">
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-500/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-orange-500/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-orange-500 mb-4 group-hover/summary:scale-110 transition-transform duration-300">5+</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Championship Years</div>
+                    </div>
+                  </div>
+                </div>
               </div>
+              
+              {/* Bottom Racing Line */}
+              <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* F1 Garage Services Section */}
+      {/* F1 Modern Garage Services Section */}
       <section
         id="services"
         ref={servicesRef}
-        className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden"
+        className="py-16 md:py-24 lg:py-32 bg-gradient-to-br from-gray-950 via-black to-gray-900 relative overflow-hidden"
       >
         {/* F1 Services Background with Parallax */}
         <motion.div
-          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-25 motion-div"
+          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-20 motion-div"
           style={{
             backgroundImage: "url('/images/f1-services-bg.png')",
             y: servicesParallaxY,
@@ -2183,133 +2492,219 @@ export default function EnshiftPortfolio() {
             backgroundRepeat: 'no-repeat',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/50 to-black/75" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/85 via-gray-900/70 to-black/85" />
         
-        {/* Background Grid Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="grid grid-cols-12 h-full">
+        {/* Modern Racing Grid Pattern */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="grid grid-cols-12 gap-px h-full">
             {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} className="border-r border-f1-orange/20 h-full" />
+              <div key={i} className="bg-gradient-to-b from-orange-600/20 via-transparent to-orange-600/20" />
             ))}
           </div>
         </div>
 
-        {/* Pit Lane Lines */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-f1-orange via-f1-red to-f1-orange" />
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-f1-orange via-f1-red to-f1-orange" />
+        {/* Dynamic Pit Lane Lines */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse" />
+        <div className="absolute top-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
+        <div className="absolute bottom-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse" />
 
-        <div className="container mx-auto px-6 relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="text-f1-orange text-sm font-bold uppercase tracking-wider mb-4 flex items-center justify-center gap-2">
-              <span className="w-2 h-2 bg-f1-orange rounded-full animate-pulse" />
-              F1 GARAGE SERVICES
-              <span className="w-2 h-2 bg-f1-orange rounded-full animate-pulse" />
+        {/* Modern Racing Data Stream */}
+        <div className="absolute top-4 left-0 right-0 overflow-hidden z-10">
+          <div className="text-xs md:text-sm text-orange-600 font-mono tracking-wider whitespace-nowrap animate-marquee">
+            <span className="px-8">GARAGE: OPERATIONAL</span>
+            <span className="px-8 text-red-600">PRECISION: 99.9%</span>
+            <span className="px-8 text-orange-600">SERVICES: ACTIVE</span>
+            <span className="px-8 text-red-600">DEPLOYMENT: READY</span>
+            <span className="px-8 text-orange-600">PERFORMANCE: MAXIMUM</span>
+          </div>
+        </div>
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          {/* Modern Section Header */}
+          <div className="text-center mb-16 lg:mb-24">
+            {/* F1 Status Indicator */}
+            <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-orange-600/30 bg-black/40 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+              <span className="text-orange-500 text-sm font-mono font-bold tracking-wider uppercase">F1 Garage Services</span>
+              <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
-              PRECISION
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-f1-orange to-f1-red">
+            
+            {/* Modern Title */}
+            <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-none">
+              <span className="block text-white">PRECISION</span>
+              <span className="block bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 bg-clip-text text-transparent">
                 ENGINEERING
               </span>
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
-              Fast, efficient, and dynamic solutions crafted with F1-level precision and performance.
+            
+            {/* Modern Divider */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-orange-600"></div>
+              <div className="w-3 h-3 border-2 border-orange-600 rotate-45"></div>
+              <div className="w-24 h-px bg-gradient-to-r from-orange-600 to-red-600"></div>
+              <div className="w-3 h-3 border-2 border-red-600 rotate-45"></div>
+              <div className="w-12 h-px bg-gradient-to-r from-red-600 to-transparent"></div>
+            </div>
+            
+            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Fast, efficient, and dynamic solutions crafted with <span className="text-orange-500 font-semibold">F1-level precision</span> and 
+              <span className="text-red-500 font-semibold"> championship performance</span>.
             </p>
           </div>
 
-          {/* Services Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+          {/* Modern Services Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8 max-w-7xl mx-auto mb-16">
             {services.map((service, index) => (
               <div
                 key={service.title}
                 ref={(el) => {
                   if (el) serviceCardsRef.current[index] = el
                 }}
-                className="group relative bg-gradient-to-br from-gray-800 to-gray-900 border border-f1-orange/30 hover:border-f1-orange transition-all duration-500 overflow-hidden"
-                style={{
-                  clipPath: "polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px))",
-                }}
+                className="group relative h-full"
               >
-                {/* Glow Effect */}
-                <div className="absolute inset-0 bg-gradient-to-br from-f1-orange/0 via-f1-orange/0 to-f1-orange/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                {/* Neon Underline */}
-                <div className="absolute bottom-0 left-0 w-0 h-1 bg-gradient-to-r from-f1-orange to-f1-red group-hover:w-full transition-all duration-700 ease-out" />
-                
-                {/* Corner Details */}
-                <div className="absolute top-4 right-4 w-6 h-6 border-t-2 border-r-2 border-f1-orange/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="absolute bottom-4 left-4 w-6 h-6 border-b-2 border-l-2 border-f1-orange/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-
-                <div className="p-8 relative z-10">
-                  {/* Service Tag */}
-                  <div className="bg-f1-orange/20 text-f1-orange text-xs font-bold px-3 py-1 uppercase tracking-wider mb-6 inline-block border border-f1-orange/30">
-                    {service.tag}
-                  </div>
-
-                  {/* Icon */}
-                  <div className="text-f1-orange mb-6 group-hover:text-f1-red group-hover:scale-110 transition-all duration-300">
-                    <service.icon className="w-8 h-8" />
-                  </div>
-
-                  {/* Title */}
-                  <h3 className="text-xl font-bold mb-4 text-white group-hover:text-f1-orange transition-colors duration-300">
-                    {service.title}
-                  </h3>
-
-                  {/* Description */}
-                  <p className="text-gray-400 text-sm leading-relaxed mb-6 group-hover:text-gray-300 transition-colors duration-300">
-                    {service.description}
-                  </p>
-
-                  {/* Performance Metrics */}
-                  <div className="border-t border-f1-orange/30 pt-4 space-y-2">
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">Speed</span>
-                      <span className="text-f1-orange font-bold text-sm">{service.speed}</span>
+                <div className="relative h-full min-h-[400px] bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-orange-600/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/40 hover:shadow-2xl hover:shadow-orange-600/10">
+                  {/* Modern Scan Line Animation */}
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+                  <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                  
+                  {/* Corner Accents */}
+                  <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className="p-6 lg:p-8 h-full flex flex-col">
+                    {/* Service Tag */}
+                    <div className="mb-6">
+                      <div className="inline-flex items-center px-3 py-1 bg-orange-600/20 border border-orange-600/40 rounded-lg">
+                        <span className="text-orange-500 text-xs font-mono font-bold uppercase tracking-wider">{service.tag}</span>
+                      </div>
                     </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-xs text-gray-500 uppercase tracking-wider">Efficiency</span>
-                      <span className="text-f1-red font-bold text-sm">{service.efficiency}</span>
+
+                    {/* Icon */}
+                    <div className="mb-6 group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-16 h-16 bg-gradient-to-br from-orange-600/20 to-red-600/20 rounded-xl flex items-center justify-center border border-orange-600/30 group-hover:border-orange-600/60 transition-all duration-300">
+                        <service.icon className="w-8 h-8 text-orange-500 group-hover:text-orange-400 transition-colors duration-300" />
+                      </div>
+                    </div>
+
+                    {/* Title */}
+                    <h3 className="text-xl lg:text-2xl font-bold mb-4 text-white group-hover:text-orange-400 transition-colors duration-300 leading-tight">
+                      {service.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="text-gray-400 text-sm lg:text-base leading-relaxed mb-6 group-hover:text-gray-300 transition-colors duration-300 flex-1">
+                      {service.description}
+                    </p>
+
+                    {/* Performance Metrics */}
+                    <div className="space-y-4 mb-6">
+                      <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Speed Rating</span>
+                          <span className="text-orange-500 font-bold text-sm">{service.speed}</span>
+                        </div>
+                        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-orange-500 to-red-500 rounded-full transition-all duration-1000" style={{width: service.speed}}></div>
+                        </div>
+                      </div>
+                      
+                      <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-4">
+                        <div className="flex justify-between items-center mb-3">
+                          <span className="text-xs text-gray-400 uppercase tracking-wider font-medium">Efficiency</span>
+                          <span className="text-red-500 font-bold text-sm">{service.efficiency}</span>
+                        </div>
+                        <div className="h-2 bg-gray-800 rounded-full overflow-hidden">
+                          <div className="h-full bg-gradient-to-r from-red-500 to-orange-500 rounded-full transition-all duration-1000" style={{width: service.efficiency}}></div>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Modern Deploy Button */}
+                    <div className="mt-auto">
+                      <button className="w-full bg-gradient-to-r from-orange-600 to-red-600 hover:from-red-600 hover:to-orange-600 text-white py-4 px-6 text-sm font-bold uppercase tracking-wider rounded-xl transition-all duration-300 relative overflow-hidden group/btn border border-orange-600/30 hover:border-orange-600/60">
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          <span>DEPLOY SERVICE</span>
+                          <div className="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+                        </span>
+                        <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-red-400 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                      </button>
                     </div>
                   </div>
 
-                  {/* Power Button */}
-                  <div className="mt-6">
-                    <button className="w-full bg-gradient-to-r from-f1-orange to-f1-red hover:from-f1-red hover:to-f1-orange text-white py-3 px-4 text-sm font-bold uppercase tracking-wider transition-all duration-300 relative overflow-hidden group/btn">
-                      <span className="relative z-10">DEPLOY</span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-f1-orange to-f1-red opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
-                    </button>
+                  {/* Hover Glow Effect */}
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none">
+                    <div className="absolute inset-0 bg-gradient-to-br from-orange-600/30 via-transparent to-red-600/30 rounded-2xl"></div>
                   </div>
-                </div>
-
-                {/* Scan Lines Effect */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none">
-                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-f1-orange/10 to-transparent animate-pulse" />
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Garage Status Dashboard */}
-          <div className="mt-16 bg-gradient-to-r from-gray-800 to-gray-900 border border-f1-orange/30 p-8 text-center">
-            <div className="grid md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-f1-orange mb-2">24/7</div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider">Garage Operations</div>
+          {/* Modern Garage Status Dashboard */}
+          <div className="relative group">
+            <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-orange-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/50 hover:shadow-2xl hover:shadow-orange-600/20">
+              {/* Top Racing Line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+              <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+              
+              {/* Corner Accents */}
+              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="p-8 lg:p-12">
+                <div className="text-center mb-12">
+                  {/* Dashboard Status */}
+                  <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-orange-600/30 bg-black/40 backdrop-blur-sm">
+                    <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                    <span className="text-orange-500 text-sm font-mono font-bold tracking-wider uppercase">Garage Operations</span>
+                    <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                  </div>
+                  
+                  <h3 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-6 leading-tight">
+                    CHAMPIONSHIP PERFORMANCE METRICS
+                  </h3>
+                  
+                  <p className="text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    Our <span className="text-orange-500 font-semibold">precision-engineered services</span> deliver 
+                    <span className="text-red-500 font-semibold"> championship-level results</span> with unmatched reliability and speed.
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-orange-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">24/7</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Garage Operations</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-red-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-red-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">0.3s</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Avg Response Time</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-orange-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">99.9%</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Uptime Record</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-red-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-red-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">150+</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Projects Deployed</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-f1-red mb-2">0.3s</div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider">Avg Response Time</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-f1-orange mb-2">99.9%</div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider">Uptime Record</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-f1-red mb-2">150+</div>
-                <div className="text-sm text-gray-400 uppercase tracking-wider">Projects Deployed</div>
-              </div>
+              
+              {/* Bottom Racing Line */}
+              <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
             </div>
           </div>
         </div>
@@ -2319,11 +2714,11 @@ export default function EnshiftPortfolio() {
       <section 
         id="portfolio" 
         ref={portfolioRef} 
-        className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden victory-lap-section"
+        className="py-20 bg-gradient-to-br from-gray-900 via-black to-gray-800 relative overflow-hidden"
       >
         {/* F1 Portfolio Background with Parallax */}
         <motion.div
-          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 motion-div"
+          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30"
           style={{
             backgroundImage: "url('/images/f1-portfolio-bg.png')",
             y: portfolioParallaxY,
@@ -2344,79 +2739,89 @@ export default function EnshiftPortfolio() {
         </div>
 
         {/* Victory Lap Lines */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400" />
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400" />
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-pulse" />
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 animate-pulse" />
 
         {/* Speed Lines Animation */}
         <div className="absolute inset-0 overflow-hidden">
-          <div className="victory-speed-lines"></div>
-        </div>
-
-        {/* Victory Lap Corner Accents */}
-        <div className="victory-corner-accent top-left"></div>
-        <div className="victory-corner-accent top-right"></div>
-        <div className="victory-corner-accent bottom-left"></div>
-        <div className="victory-corner-accent bottom-right"></div>
-
-        {/* Victory Lap Data Stream */}
-        <div className="absolute top-4 left-0 right-0 overflow-hidden">
-          <div className="victory-data-stream">
-            PROJECT_STATUS: VICTORY | COMPLETION: 100% | CLIENT_SATISFACTION: 98% | AWARDS: 15+ | PORTFOLIO: CHAMPIONSHIP
+          <div className="flex space-x-8 animate-pulse">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="w-px h-full bg-gradient-to-b from-transparent via-cyan-400/30 to-transparent animate-pulse" 
+                style={{ animationDelay: `${i * 0.2}s` }} />
+            ))}
           </div>
         </div>
 
-        <div className="container mx-auto px-6 relative z-10">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="victory-lap-indicator mb-4">
-              <div className="victory-lap-text text-cyan-400 text-sm font-bold uppercase tracking-wider font-mono flex items-center justify-center gap-2">
-                <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-                VICTORY LAP PORTFOLIO
-                <span className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></span>
-              </div>
+        {/* Victory Lap Corner Accents */}
+        <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-cyan-400/50" />
+        <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-cyan-400/50" />
+        <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-cyan-400/50" />
+        <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-cyan-400/50" />
+
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          {/* Modern Section Header */}
+          <div className="text-center mb-16 lg:mb-24">
+            {/* F1 Status Indicator */}
+            <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-cyan-400/30 bg-black/40 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
+              <span className="text-cyan-500 text-sm font-mono font-bold tracking-wider uppercase">Victory Lap Portfolio</span>
+              <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
             </div>
-            <h2 className="victory-lap-title text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
-              CHAMPIONSHIP
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-f1-orange via-f1-red to-f1-orange">
+            
+            {/* Modern Title */}
+            <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-none">
+              <span className="block text-white">CHAMPIONSHIP</span>
+              <span className="block bg-gradient-to-r from-cyan-400 via-blue-500 to-cyan-400 bg-clip-text text-transparent">
                 VICTORIES
               </span>
             </h2>
-            <p className="victory-lap-subtitle text-xl text-gray-300 max-w-3xl mx-auto">
-              Our trophy collection showcases the championship projects that have dominated the digital racing circuit.
+            
+            {/* Modern Divider */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-cyan-400"></div>
+              <div className="w-3 h-3 border-2 border-cyan-400 rotate-45"></div>
+              <div className="w-24 h-px bg-gradient-to-r from-cyan-400 to-blue-500"></div>
+              <div className="w-3 h-3 border-2 border-blue-500 rotate-45"></div>
+              <div className="w-12 h-px bg-gradient-to-r from-blue-500 to-transparent"></div>
+            </div>
+            
+            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Showcasing our <span className="text-cyan-500 font-semibold">championship portfolio</span> of 
+              <span className="text-blue-500 font-semibold"> victory-lap projects</span> that dominated the digital racing circuit.
             </p>
           </div>
 
           {/* Victory Lap HUD Container */}
-          <div className="victory-hud-container victory-hud-glow p-8 mb-12">
+          <div className="bg-black/20 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-8 mb-12 shadow-2xl shadow-cyan-400/10">
             {/* Portfolio Carousel with F1 Theme */}
-            <div className="relative victory-carousel-container">
-              <div className="overflow-hidden">
+            <div className="relative">
+              <div className="overflow-hidden rounded-lg">
                 <div
-                  className="victory-carousel-track flex transition-transform duration-500 ease-in-out"
+                  className="flex transition-transform duration-500 ease-in-out"
                   style={{ transform: `translateX(-${currentSlide * 100}%)` }}
                 >
                   {portfolioItems.map((item, index) => (
-                    <div key={index} className="w-full flex-shrink-0 victory-carousel-slide">
+                    <div key={index} className="w-full flex-shrink-0">
                       <div className="grid md:grid-cols-2 gap-12 items-center">
                         {/* Project Information Panel */}
-                        <div className="victory-project-panel p-8">
+                        <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-8 shadow-xl">
                           {/* Project Status */}
-                          <div className="victory-project-status mb-6">
+                          <div className="mb-6">
                             <div className="flex items-center mb-4">
                               <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3 animate-pulse"></div>
                               <span className="text-cyan-400 text-sm font-bold uppercase tracking-wider font-mono">
                                 PROJECT STATUS: VICTORY
                               </span>
                             </div>
-                            <div className="victory-project-tag bg-cyan-400/20 text-cyan-400 text-xs font-bold px-4 py-2 uppercase tracking-wider border border-cyan-400/30">
+                            <div className="bg-cyan-400/20 text-cyan-400 text-xs font-bold px-4 py-2 uppercase tracking-wider border border-cyan-400/30 rounded-md inline-block">
                               {item.tag}
                             </div>
                           </div>
 
                           {/* Project Details */}
-                          <div className="victory-project-details">
-                            <h3 className="text-3xl font-bold mb-4 text-white victory-project-title">
+                          <div className="">
+                            <h3 className="text-3xl font-bold mb-4 text-white">
                               {item.title}
                             </h3>
                             <p className="text-gray-300 mb-6 text-lg leading-relaxed">
@@ -2424,7 +2829,7 @@ export default function EnshiftPortfolio() {
                             </p>
                             
                             {/* Project Metrics */}
-                            <div className="victory-project-metrics mb-6 border-t border-cyan-400/30 pt-4">
+                            <div className="mb-6 border-t border-cyan-400/30 pt-4">
                               <div className="flex items-center space-x-4 mb-2">
                                 <span className="text-cyan-400 font-bold text-sm">{item.category}</span>
                                 <span className="text-gray-500">•</span>
@@ -2443,29 +2848,29 @@ export default function EnshiftPortfolio() {
                             </div>
 
                             {/* Victory Button */}
-                            <button className="victory-project-btn group relative overflow-hidden">
+                            <button className="group relative overflow-hidden bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/25 hover:scale-105">
                               <span className="relative z-10 flex items-center justify-center">
                                 <span className="mr-2">VIEW VICTORY</span>
                                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                               </span>
-                              <div className="victory-btn-glow"></div>
+                              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                             </button>
                           </div>
                         </div>
 
                         {/* Project Image Display */}
-                        <div className="victory-project-display relative">
-                          <div className="victory-screen-frame">
+                        <div className="relative">
+                          <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-4 shadow-xl">
                             <img
                               src={item.image || "/placeholder.svg"}
                               alt={item.title}
-                              className="w-full h-96 object-cover victory-project-image"
+                              className="w-full h-96 object-cover rounded-lg"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                            <div className="absolute inset-4 bg-gradient-to-t from-black/50 to-transparent rounded-lg pointer-events-none" />
                             
                             {/* Screen Overlay Effects */}
-                            <div className="victory-screen-overlay"></div>
-                            <div className="victory-scan-lines"></div>
+                            <div className="absolute inset-4 bg-gradient-to-br from-cyan-400/10 to-blue-500/10 rounded-lg pointer-events-none animate-pulse"></div>
+                            <div className="absolute inset-4 bg-gradient-to-t from-transparent via-transparent to-cyan-400/5 rounded-lg pointer-events-none"></div>
                           </div>
                         </div>
                       </div>
@@ -2475,27 +2880,31 @@ export default function EnshiftPortfolio() {
               </div>
 
               {/* Victory Lap Controls */}
-              <div className="victory-controls mt-12">
+              <div className="mt-12">
                 <div className="flex justify-center items-center space-x-6">
                   <button 
-                    className="victory-control-btn"
+                    className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-cyan-400 hover:to-blue-500 text-white hover:text-black border border-cyan-400/30 hover:border-cyan-400 p-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/25 hover:scale-105"
                     onClick={prevSlide}
                   >
                     <ChevronLeft className="w-6 h-6" />
                   </button>
 
-                  <div className="victory-indicators flex space-x-3">
+                  <div className="flex space-x-3">
                     {portfolioItems.map((_, index) => (
                       <button
                         key={index}
-                        className={`victory-indicator ${index === currentSlide ? 'active' : ''}`}
+                        className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
+                          index === currentSlide 
+                            ? 'bg-cyan-400 border-cyan-400 shadow-lg shadow-cyan-400/50' 
+                            : 'bg-transparent border-cyan-400/50 hover:border-cyan-400'
+                        }`}
                         onClick={() => setCurrentSlide(index)}
                       />
                     ))}
                   </div>
 
                   <button 
-                    className="victory-control-btn"
+                    className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-cyan-400 hover:to-blue-500 text-white hover:text-black border border-cyan-400/30 hover:border-cyan-400 p-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/25 hover:scale-105"
                     onClick={nextSlide}
                   >
                     <ChevronRight className="w-6 h-6" />
@@ -2506,22 +2915,22 @@ export default function EnshiftPortfolio() {
           </div>
 
           {/* Victory Lap Statistics Dashboard */}
-          <div className="victory-stats-dashboard mt-16">
+          <div className="mt-16">
             <div className="grid md:grid-cols-4 gap-8">
-              <div className="victory-stat-card">
-                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono">150+</div>
+              <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-6 text-center hover:border-cyan-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/10 group">
+                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono group-hover:scale-110 transition-transform duration-300">150+</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Victories Won</div>
               </div>
-              <div className="victory-stat-card">
-                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono">98%</div>
+              <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-6 text-center hover:border-cyan-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/10 group">
+                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono group-hover:scale-110 transition-transform duration-300">98%</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Success Rate</div>
               </div>
-              <div className="victory-stat-card">
-                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono">15+</div>
+              <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-6 text-center hover:border-cyan-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/10 group">
+                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono group-hover:scale-110 transition-transform duration-300">15+</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Awards Won</div>
               </div>
-              <div className="victory-stat-card">
-                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono">24/7</div>
+              <div className="bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-cyan-400/20 rounded-lg p-6 text-center hover:border-cyan-400/40 transition-all duration-300 hover:shadow-lg hover:shadow-cyan-400/10 group">
+                <div className="text-3xl font-bold text-cyan-400 mb-2 font-mono group-hover:scale-110 transition-transform duration-300">24/7</div>
                 <div className="text-sm text-gray-400 uppercase tracking-wider">Championship Support</div>
               </div>
             </div>
@@ -2530,10 +2939,10 @@ export default function EnshiftPortfolio() {
       </section>
 
       {/* F1 Pit Crew Testimonials Section */}
-      <section id="testimonials" ref={testimonialsRef} className="py-20 pit-crew-section relative overflow-hidden">
+      <section id="testimonials" ref={testimonialsRef} className="py-16 md:py-24 lg:py-32 bg-gradient-to-br from-gray-950 via-black to-gray-900 relative overflow-hidden">
         {/* F1 Testimonials Background with Parallax */}
         <motion.div
-          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-25 motion-div"
+          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-15"
           style={{
             backgroundImage: "url('/images/f1-testimonials-bg.png')",
             y: testimonialsParallaxY,
@@ -2542,159 +2951,258 @@ export default function EnshiftPortfolio() {
             backgroundRepeat: 'no-repeat',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/60 to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-gray-900/75 to-black/90" />
         
-        {/* Pit Lane Lines */}
-        <div className="pit-lane-lines"></div>
-        <div className="pit-lane-lines bottom"></div>
+        {/* Modern Racing Grid Background */}
+        <div className="absolute inset-0 opacity-5">
+          <div className="grid grid-cols-12 gap-px h-full">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="bg-gradient-to-b from-orange-600/20 via-transparent to-orange-600/20" />
+            ))}
+          </div>
+        </div>
+
+        {/* Dynamic Pit Lane Lines */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse" />
+        <div className="absolute top-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
+        <div className="absolute bottom-6 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent opacity-60" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse" />
         
         {/* Pit Crew Timer */}
-        <div className="pit-crew-timer">3.24s</div>
+        <div className="absolute top-8 right-8 bg-black/40 backdrop-blur-sm border border-orange-600/30 rounded-lg px-4 py-2">
+          <div className="text-orange-400 text-xs font-mono font-bold tracking-wider">PIT TIME: 3.24s</div>
+        </div>
         
         {/* Performance Status */}
-        <div className="pit-crew-performance">OPTIMAL</div>
+        <div className="absolute top-8 left-8 bg-black/40 backdrop-blur-sm border border-green-400/30 rounded-lg px-4 py-2">
+          <div className="text-green-400 text-xs font-mono font-bold tracking-wider">STATUS: OPTIMAL</div>
+        </div>
 
-        <div className="container mx-auto px-6 pit-crew-container">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="pit-crew-title text-orange-400 text-sm font-bold uppercase tracking-wider mb-4 font-mono flex items-center justify-center gap-2">
-              <Wrench className="w-4 h-4" />
-              PIT CREW TESTIMONIALS
-              <Settings className="w-4 h-4" />
+
+
+        <div className="container mx-auto px-4 lg:px-8 relative z-10">
+          {/* Modern Section Header */}
+          <div className="text-center mb-16 lg:mb-24">
+            {/* F1 Status Indicator */}
+            <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-orange-600/30 bg-black/40 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+              <span className="text-orange-500 text-sm font-mono font-bold tracking-wider uppercase">Pit Crew Testimonials</span>
+              <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
             </div>
-            <h2 className=" text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
-              CHAMPIONSHIP
-              <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-500">
+            
+            {/* Modern Title */}
+            <h2 className="text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-black mb-8 leading-none">
+              <span className="block text-white">CHAMPIONSHIP</span>
+              <span className="block bg-gradient-to-r from-orange-600 via-red-600 to-orange-600 bg-clip-text text-transparent">
                 TEAMWORK
               </span>
             </h2>
-            <p className=" text-xl text-gray-300 max-w-3xl mx-auto">
-              Our clients are our pit crew champions. Here's what the fastest teams in the industry say about our performance.
+            
+            {/* Modern Divider */}
+            <div className="flex items-center justify-center gap-4 mb-8">
+              <div className="w-12 h-px bg-gradient-to-r from-transparent to-orange-600"></div>
+              <div className="w-3 h-3 border-2 border-orange-600 rotate-45"></div>
+              <div className="w-24 h-px bg-gradient-to-r from-orange-600 to-red-600"></div>
+              <div className="w-3 h-3 border-2 border-red-600 rotate-45"></div>
+              <div className="w-12 h-px bg-gradient-to-r from-red-600 to-transparent"></div>
+            </div>
+            
+            <p className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Our clients are our <span className="text-orange-500 font-semibold">pit crew champions</span>. Here's what the 
+              <span className="text-red-500 font-semibold"> fastest teams</span> in the industry say about our performance.
             </p>
           </div>
 
-          {/* Pit Crew Carousel */}
-          <div className="pit-crew-carousel mb-12" ref={pitCrewCarouselRef}>
-            <div className="pit-crew-track" ref={pitCrewTrackRef}>
-              {testimonials.map((testimonial, index) => (
-                <div key={testimonial.name} className="pit-crew-slide">
-                  <div 
-                    className="pit-crew-card p-8 mx-4 h-full"
-                    ref={(el) => {
-                      if (el) pitCrewCardsRef.current[index] = el
-                    }}
-                  >
-                    {/* Pit Crew Tool Icon */}
-                    <div className="pit-crew-tool">
-                      {index % 3 === 0 ? <Wrench className="w-5 h-5" /> : 
-                       index % 3 === 1 ? <Settings className="w-5 h-5" /> : 
-                       <Gauge className="w-5 h-5" />}
-                    </div>
+          {/* Modern Pit Crew Carousel */}
+          <div className="mb-12" ref={pitCrewCarouselRef}>
+            <div className="overflow-hidden" ref={pitCrewTrackRef}>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                {testimonials.map((testimonial, index) => (
+                  <div key={testimonial.name} className="group">
+                    <div 
+                      className="relative h-full bg-gradient-to-br from-gray-900/90 via-black/90 to-gray-800/90 backdrop-blur-sm border border-orange-600/20 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/40 hover:shadow-2xl hover:shadow-orange-600/10"
+                      ref={(el) => {
+                        if (el) pitCrewCardsRef.current[index] = el
+                      }}
+                    >
+                      {/* Modern Scan Line Animation */}
+                      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+                      <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                      
+                      {/* Corner Accents */}
+                      <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                      <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
-                    {/* Star Rating */}
-                    <div className="pit-crew-stars mb-6">
-                      {[...Array(5)].map((_, starIndex) => (
-                        <Star 
-                          key={starIndex} 
-                          className={`pit-crew-star ${starIndex < 5 ? 'glow' : ''}`}
-                          fill="currentColor"
-                        />
-                      ))}
-                    </div>
+                      <div className="p-6 lg:p-8 h-full flex flex-col">
+                        {/* Pit Crew Tool Icon */}
+                        <div className="mb-6">
+                          <div className="w-12 h-12 bg-gradient-to-br from-orange-600/20 to-red-600/20 rounded-xl flex items-center justify-center border border-orange-600/30 group-hover:border-orange-600/60 transition-all duration-300">
+                            {index % 3 === 0 ? <Wrench className="w-6 h-6 text-orange-500 group-hover:text-orange-400 transition-colors duration-300" /> : 
+                             index % 3 === 1 ? <Settings className="w-6 h-6 text-orange-500 group-hover:text-orange-400 transition-colors duration-300" /> : 
+                             <Gauge className="w-6 h-6 text-orange-500 group-hover:text-orange-400 transition-colors duration-300" />}
+                          </div>
+                        </div>
 
-                    {/* Quote */}
-                    <div className="pit-crew-quote mb-8">
-                      {testimonial.content}
-                    </div>
+                        {/* Star Rating */}
+                        <div className="flex gap-1 mb-6">
+                          {[...Array(5)].map((_, starIndex) => (
+                            <Star 
+                              key={starIndex} 
+                              className="w-5 h-5 text-orange-400 fill-orange-400 group-hover:text-orange-300 group-hover:fill-orange-300 transition-colors duration-300"
+                            />
+                          ))}
+                        </div>
 
-                    {/* Member Info */}
-                    <div className="pit-crew-member flex items-center">
-                      <div className="pit-crew-avatar w-16 h-16 mr-4">
-                        <img
-                          src={testimonial.avatar || "/placeholder.svg"}
-                          alt={testimonial.name}
-                          className="w-full h-full object-cover"
-                        />
+                        {/* Quote */}
+                        <blockquote className="text-gray-300 text-base lg:text-lg leading-relaxed mb-8 flex-1 group-hover:text-gray-200 transition-colors duration-300">
+                          "{testimonial.content}"
+                        </blockquote>
+
+                        {/* Member Info */}
+                        <div className="flex items-center mb-6">
+                          <div className="w-16 h-16 mr-4 rounded-full overflow-hidden border-2 border-orange-600/30 group-hover:border-orange-600/60 transition-all duration-300">
+                            <img
+                              src={testimonial.avatar || "/placeholder.svg"}
+                              alt={testimonial.name}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <div className="text-white font-bold text-lg group-hover:text-orange-400 transition-colors duration-300">{testimonial.name}</div>
+                            <div className="text-orange-500 text-sm font-medium">{testimonial.role}</div>
+                            <div className="text-gray-400 text-sm">{testimonial.company}</div>
+                          </div>
+                        </div>
+
+                        {/* Performance Metrics */}
+                        <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-4">
+                          <div className="flex justify-between items-center text-sm mb-2">
+                            <span className="text-gray-400">Pit Stop Time:</span>
+                            <span className="text-orange-400 font-mono font-bold">{(2.1 + index * 0.3).toFixed(1)}s</span>
+                          </div>
+                          <div className="flex justify-between items-center text-sm">
+                            <span className="text-gray-400">Efficiency:</span>
+                            <span className="text-green-400 font-mono font-bold">{98 - index}%</span>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="pit-crew-name">{testimonial.name}</div>
-                        <div className="pit-crew-role">{testimonial.role}</div>
-                        <div className="pit-crew-company">{testimonial.company}</div>
-                      </div>
-                    </div>
 
-                    {/* Performance Metrics */}
-                    <div className="mt-6 pt-4 border-t border-gray-700">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-gray-400">Pit Stop Time:</span>
-                        <span className="text-orange-400 font-mono">{(2.1 + index * 0.3).toFixed(1)}s</span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm mt-2">
-                        <span className="text-gray-400">Efficiency:</span>
-                        <span className="text-green-400 font-mono">{98 - index}%</span>
+                      {/* Hover Glow Effect */}
+                      <div className="absolute inset-0 opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none">
+                        <div className="absolute inset-0 bg-gradient-to-br from-orange-600/30 via-transparent to-red-600/30 rounded-2xl"></div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
-          {/* Pit Crew Controls */}
-          <div className="pit-crew-controls">
+          {/* Modern Pit Crew Controls */}
+          <div className="flex justify-center items-center space-x-6 mb-16">
             <button 
-              className="pit-crew-btn"
+              className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-orange-600 hover:to-red-600 text-white border border-orange-600/30 hover:border-orange-600 p-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-orange-600/25 hover:scale-105"
               onClick={prevTestimonialSlide}
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
 
-            <div className="pit-crew-indicators">
+            <div className="flex space-x-3">
               {testimonials.map((_, index) => (
                 <button
                   key={index}
-                  className={`pit-crew-indicator ${index === currentTestimonialSlide ? 'active' : ''}`}
+                  className={`w-3 h-3 rounded-full border-2 transition-all duration-300 ${
+                    index === currentTestimonialSlide 
+                      ? 'bg-orange-600 border-orange-600 shadow-lg shadow-orange-600/50' 
+                      : 'bg-transparent border-orange-600/50 hover:border-orange-600'
+                  }`}
                   onClick={() => goToTestimonialSlide(index)}
                 />
               ))}
             </div>
 
             <button 
-              className="pit-crew-btn"
+              className="bg-gradient-to-r from-gray-700 to-gray-800 hover:from-orange-600 hover:to-red-600 text-white border border-orange-600/30 hover:border-orange-600 p-3 rounded-lg transition-all duration-300 hover:shadow-lg hover:shadow-orange-600/25 hover:scale-105"
               onClick={nextTestimonialSlide}
             >
               <ChevronRight className="w-5 h-5" />
             </button>
           </div>
 
-          {/* Pit Stop Statistics */}
-          <div className="mt-16 grid md:grid-cols-4 gap-8 text-center">
-            <div className="bg-black/80 p-6 border border-orange-500/30">
-              <div className="text-3xl font-bold text-orange-400 mb-2 font-mono">2.3s</div>
-              <div className="text-sm text-gray-400 uppercase tracking-wider">Avg Response Time</div>
-            </div>
-            <div className="bg-black/80 p-6 border border-orange-500/30">
-              <div className="text-3xl font-bold text-orange-400 mb-2 font-mono">150+</div>
-              <div className="text-sm text-gray-400 uppercase tracking-wider">Projects Completed</div>
-            </div>
-            <div className="bg-black/80 p-6 border border-orange-500/30">
-              <div className="text-3xl font-bold text-orange-400 mb-2 font-mono">98%</div>
-              <div className="text-sm text-gray-400 uppercase tracking-wider">Success Rate</div>
-            </div>
-            <div className="bg-black/80 p-6 border border-orange-500/30">
-              <div className="text-3xl font-bold text-orange-400 mb-2 font-mono">24/7</div>
-              <div className="text-sm text-gray-400 uppercase tracking-wider">Pit Support</div>
+          {/* Modern Pit Stop Statistics Dashboard */}
+          <div className="relative group">
+            <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-orange-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/50 hover:shadow-2xl hover:shadow-orange-600/20">
+              {/* Top Racing Line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+              <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+              
+              {/* Corner Accents */}
+              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="p-8 lg:p-12">
+                <div className="text-center mb-12">
+                  {/* Dashboard Status */}
+                  <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-orange-600/30 bg-black/40 backdrop-blur-sm">
+                    <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                    <span className="text-orange-500 text-sm font-mono font-bold tracking-wider uppercase">Pit Stop Statistics</span>
+                    <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                  </div>
+                  
+                  <h3 className="text-3xl lg:text-4xl xl:text-5xl font-black text-white mb-6 leading-tight">
+                    CHAMPIONSHIP PIT CREW PERFORMANCE
+                  </h3>
+                  
+                  <p className="text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    Our <span className="text-orange-500 font-semibold">championship pit crew</span> delivers 
+                    <span className="text-red-500 font-semibold"> lightning-fast results</span> with unmatched precision and teamwork.
+                  </p>
+                </div>
+                
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-orange-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">2.3s</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Avg Response Time</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-red-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-red-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">150+</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Projects Completed</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-orange-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">98%</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Success Rate</div>
+                    </div>
+                  </div>
+                  <div className="text-center group/dashboard">
+                    <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-6 lg:p-8 transition-all duration-300 hover:border-red-600/40 hover:bg-black/60">
+                      <div className="text-4xl lg:text-5xl xl:text-6xl font-black text-red-600 mb-4 group-hover/dashboard:scale-110 transition-transform duration-300">24/7</div>
+                      <div className="text-sm lg:text-base text-gray-400 uppercase tracking-widest font-medium">Pit Support</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Bottom Racing Line */}
+              <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* F1 Race Finish Line Contact Section */}
-      <section id="contact" ref={contactRef} className="py-20 race-finish-section relative overflow-hidden">
+      {/* F1 Championship Contact Section */}
+      <section id="contact" ref={contactRef} className="py-16 lg:py-24 relative overflow-hidden">
         {/* F1 Contact Background with Parallax */}
         <motion.div
-          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30 motion-div"
+          className="absolute inset-0 w-full h-full bg-cover bg-center opacity-30"
           style={{
             backgroundImage: "url('/images/f1-contact-bg.png')",
             y: contactParallaxY,
@@ -2703,461 +3211,689 @@ export default function EnshiftPortfolio() {
             backgroundRepeat: 'no-repeat',
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-black/75 via-black/50 to-black/75" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/90 via-gray-900/80 to-black/90" />
         
-        {/* Checkered Flag Background Pattern */}
-        <div className="checkered-flag-bg"></div>
-        
-        {/* Racing Track Lines */}
-        <div className="race-track-lines"></div>
-        
-        {/* Speed Lines */}
+        {/* Animated Racing Lines */}
+        <div className="absolute inset-0 overflow-hidden">
+          {/* Top Racing Line */}
+          <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+          <div className="absolute top-2 left-0 w-0 h-px bg-orange-600 animate-[expandLine_3s_ease-in-out_infinite] delay-500"></div>
+          
+          {/* Middle Racing Lines */}
+          <div className="absolute top-1/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600/40 to-transparent animate-pulse"></div>
+          <div className="absolute top-2/3 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600/40 to-transparent animate-pulse"></div>
+          
+          {/* Bottom Racing Line */}
+          <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+          <div className="absolute bottom-2 left-0 w-0 h-px bg-orange-600 animate-[expandLine_3s_ease-in-out_infinite] delay-1000"></div>
+        </div>
         
         <div className="relative z-10 container mx-auto px-6">
-          {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="finish-line-indicator mb-4">
-              <div className="finish-line-text text-f1-orange text-sm font-bold uppercase tracking-wider font-mono flex items-center justify-center gap-2">
-                <span className="w-2 h-2 bg-f1-orange rounded-full animate-pulse"></span>
-                FINISH LINE CONTACT
-                <span className="w-2 h-2 bg-f1-orange rounded-full animate-pulse"></span>
-              </div>
+          {/* Modern F1 Section Header */}
+          <div className="text-center mb-16 lg:mb-20 relative group">
+            {/* Status Indicator */}
+            <div className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-orange-600/30 bg-black/40 backdrop-blur-sm">
+              <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+              <span className="text-orange-500 text-sm font-mono font-bold tracking-wider uppercase">Championship Contact Zone</span>
+              <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
             </div>
-            <h2 className=" text-4xl md:text-6xl font-bold mb-6 text-white leading-tight">
+            
+            {/* Main Title */}
+            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-6 leading-none">
               CROSS THE
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-f1-orange via-f1-red to-f1-orange">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-600 via-red-600 to-orange-600">
                 FINISH LINE
               </span>
             </h2>
-            <p className="finish-line-subtitle text-xl text-gray-300 max-w-3xl mx-auto">
-              Ready to claim victory? Start your engines and race towards digital excellence with our championship team.
+            
+            {/* Subtitle */}
+            <p className="text-lg lg:text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              Ready to claim victory? Start your engines and race towards 
+              <span className="text-orange-500 font-semibold"> digital excellence</span> with our 
+              <span className="text-red-500 font-semibold">championship team</span>.
             </p>
+            
+            {/* Decorative Corner Elements */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 w-24 h-6 border-l-2 border-r-2 border-t-2 border-orange-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-24 h-6 border-l-2 border-r-2 border-b-2 border-orange-600/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
           </div>
 
           {/* Main Contact Grid */}
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Contact Information */}
-            <div className="race-info-panel">
-              <h3 className="text-3xl font-bold mb-8 text-white">
-                PIT STOP <span className="text-f1-orange">INFORMATION</span>
-              </h3>
-              
-              <div className="space-y-6">
-                <div className="contact-info-item flex items-center group">
-                  <div className="contact-icon-wrapper">
-                    <Mail className="w-6 h-6 text-f1-orange" />
-                  </div>
-                  <div className="ml-6">
-                    <div className="text-f1-orange text-sm font-bold uppercase tracking-wider">Email</div>
-                    <div className="text-white text-lg">hello@enshift.com</div>
-                  </div>
-                </div>
+          <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+            {/* Contact Information Panel */}
+            <div className="relative group">
+              <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-orange-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/50 hover:shadow-2xl hover:shadow-orange-600/20">
+                {/* Top Racing Line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
                 
-                <div className="contact-info-item flex items-center group">
-                  <div className="contact-icon-wrapper">
-                    <Phone className="w-6 h-6 text-f1-red" />
-                  </div>
-                  <div className="ml-6">
-                    <div className="text-f1-red text-sm font-bold uppercase tracking-wider">Phone</div>
-                    <div className="text-white text-lg">+1 (555) 123-4567</div>
-                  </div>
-                </div>
+                {/* Corner Accents */}
+                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 
-                <div className="contact-info-item flex items-center group">
-                  <div className="contact-icon-wrapper">
-                    <MapPin className="w-6 h-6 text-f1-orange" />
+                <div className="p-8 lg:p-12">
+                  <h3 className="text-3xl lg:text-4xl font-black text-white mb-8 leading-tight">
+                    PIT STOP <span className="text-orange-600">INFORMATION</span>
+                  </h3>
+                  
+                  <div className="space-y-8">
+                    {/* Email Contact */}
+                    <div className="flex items-center group/item transition-all duration-300 hover:bg-black/30 hover:border-orange-600/30 p-4 rounded-xl border border-transparent">
+                      <div className="w-14 h-14 bg-gradient-to-r from-orange-600/20 to-red-600/20 backdrop-blur-sm border border-orange-600/30 rounded-xl flex items-center justify-center group-hover/item:from-orange-600/30 group-hover/item:to-red-600/30 group-hover/item:border-orange-600/50 transition-all duration-300">
+                        <Mail className="w-6 h-6 text-orange-600 group-hover/item:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="ml-6">
+                        <div className="text-orange-600 text-sm font-bold uppercase tracking-wider font-mono">Email Command</div>
+                        <div className="text-white text-lg lg:text-xl font-medium">hello@enshift.com</div>
+                      </div>
+                    </div>
+                    
+                    {/* Phone Contact */}
+                    <div className="flex items-center group/item transition-all duration-300 hover:bg-black/30 hover:border-red-600/30 p-4 rounded-xl border border-transparent">
+                      <div className="w-14 h-14 bg-gradient-to-r from-red-600/20 to-orange-600/20 backdrop-blur-sm border border-red-600/30 rounded-xl flex items-center justify-center group-hover/item:from-red-600/30 group-hover/item:to-orange-600/30 group-hover/item:border-red-600/50 transition-all duration-300">
+                        <Phone className="w-6 h-6 text-red-600 group-hover/item:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="ml-6">
+                        <div className="text-red-600 text-sm font-bold uppercase tracking-wider font-mono">Radio Frequency</div>
+                        <div className="text-white text-lg lg:text-xl font-medium">+1 (555) 123-4567</div>
+                      </div>
+                    </div>
+                    
+                    {/* Location Contact */}
+                    <div className="flex items-center group/item transition-all duration-300 hover:bg-black/30 hover:border-orange-600/30 p-4 rounded-xl border border-transparent">
+                      <div className="w-14 h-14 bg-gradient-to-r from-orange-600/20 to-red-600/20 backdrop-blur-sm border border-orange-600/30 rounded-xl flex items-center justify-center group-hover/item:from-orange-600/30 group-hover/item:to-red-600/30 group-hover/item:border-orange-600/50 transition-all duration-300">
+                        <MapPin className="w-6 h-6 text-orange-600 group-hover/item:scale-110 transition-transform duration-300" />
+                      </div>
+                      <div className="ml-6">
+                        <div className="text-orange-600 text-sm font-bold uppercase tracking-wider font-mono">Circuit Location</div>
+                        <div className="text-white text-lg lg:text-xl font-medium">Monaco, Monte Carlo</div>
+                      </div>
+                    </div>
                   </div>
-                  <div className="ml-6">
-                    <div className="text-f1-orange text-sm font-bold uppercase tracking-wider">Location</div>
-                    <div className="text-white text-lg">Monaco, Monte Carlo</div>
-                  </div>
-                </div>
-              </div>
 
-              {/* Race Statistics */}
-              <div className="mt-12 race-stats-grid">
-                <div className="race-stat-item">
-                  <div className="text-2xl font-bold text-f1-orange mb-1 font-mono">24h</div>
-                  <div className="text-xs text-gray-400 uppercase tracking-wider">Response Time</div>
+                  {/* F1 Race Statistics Dashboard */}
+                  <div className="mt-12 pt-8 border-t border-orange-600/20">
+                    <div className="grid grid-cols-3 gap-6">
+                      <div className="text-center group/stat">
+                        <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60">
+                          <div className="text-2xl lg:text-3xl font-black text-orange-600 mb-2 font-mono group-hover/stat:scale-110 transition-transform duration-300">24h</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-widest font-medium">Response Time</div>
+                        </div>
+                      </div>
+                      <div className="text-center group/stat">
+                        <div className="bg-black/40 backdrop-blur-sm border border-red-600/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-red-600/40 hover:bg-black/60">
+                          <div className="text-2xl lg:text-3xl font-black text-red-600 mb-2 font-mono group-hover/stat:scale-110 transition-transform duration-300">100%</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-widest font-medium">Success Rate</div>
+                        </div>
+                      </div>
+                      <div className="text-center group/stat">
+                        <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60">
+                          <div className="text-2xl lg:text-3xl font-black text-orange-600 mb-2 font-mono group-hover/stat:scale-110 transition-transform duration-300">300+</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-widest font-medium">Projects Won</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="race-stat-item">
-                  <div className="text-2xl font-bold text-f1-red mb-1 font-mono">100%</div>
-                  <div className="text-xs text-gray-400 uppercase tracking-wider">Success Rate</div>
-                </div>
-                <div className="race-stat-item">
-                  <div className="text-2xl font-bold text-f1-orange mb-1 font-mono">300+</div>
-                  <div className="text-xs text-gray-400 uppercase tracking-wider">Projects Won</div>
-                </div>
+                
+                {/* Bottom Racing Line */}
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
               </div>
             </div>
 
             {/* Glassmorphism Contact Form */}
-            <div className="race-form-container">
-              {/* Racing Line Animation */}
-              <div className="racing-line-animation"></div>
-              
-              <div className="glassmorphism-form">
-                <div className="form-header mb-8">
-                  <h3 className="text-2xl font-bold text-white mb-2">START YOUR RACE</h3>
-                  <p className="text-gray-400">Fill out the form below to begin your journey to victory</p>
-                </div>
+            <div className="relative group">
+              <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-orange-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/50 hover:shadow-2xl hover:shadow-orange-600/20">
+                {/* Top Racing Line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
                 
-                <form className="space-y-6">
-                  <div className="form-field-group">
-                    <div className="form-field-wrapper">
-                      <Input 
-                        placeholder="Your Name" 
-                        className="race-input race-input-name bg-transparent border-gray-600 text-white placeholder-gray-400" 
-                      />
-                      <div className="input-glow-effect"></div>
-                    </div>
+                {/* Corner Accents */}
+                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="p-8 lg:p-12">
+                  <div className="mb-8">
+                    <h3 className="text-2xl lg:text-3xl font-black text-white mb-4 leading-tight">
+                      START YOUR <span className="text-orange-600">RACE</span>
+                    </h3>
+                    <p className="text-gray-400 text-base lg:text-lg">Fill out the form below to begin your journey to victory</p>
                   </div>
                   
-                  <div className="form-field-group">
-                    <div className="form-field-wrapper">
+                  <form className="space-y-6">
+                    {/* Name Input */}
+                    <div className="relative group/input">
+                      <Input 
+                        placeholder="Your Name" 
+                        className="w-full bg-black/40 backdrop-blur-sm border border-orange-600/30 text-white placeholder-gray-500 px-4 py-4 lg:py-5 rounded-xl text-base lg:text-lg focus:outline-none focus:border-orange-600 focus:ring-2 focus:ring-orange-600/20 transition-all duration-300 group-hover/input:border-orange-600/50 group-hover/input:bg-black/60" 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 to-red-600/10 rounded-xl opacity-0 group-hover/input:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
+                    </div>
+                    
+                    {/* Email Input */}
+                    <div className="relative group/input">
                       <Input 
                         type="email" 
                         placeholder="Your Email" 
-                        className="race-input race-input-email bg-transparent border-gray-600 text-white placeholder-gray-400" 
+                        className="w-full bg-black/40 backdrop-blur-sm border border-orange-600/30 text-white placeholder-gray-500 px-4 py-4 lg:py-5 rounded-xl text-base lg:text-lg focus:outline-none focus:border-orange-600 focus:ring-2 focus:ring-orange-600/20 transition-all duration-300 group-hover/input:border-orange-600/50 group-hover/input:bg-black/60" 
                       />
-                      <div className="input-glow-effect"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 to-red-600/10 rounded-xl opacity-0 group-hover/input:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
-                  </div>
-                  
-                  <div className="form-field-group">
-                    <div className="form-field-wrapper">
+                    
+                    {/* Project Type Input */}
+                    <div className="relative group/input">
                       <Input 
                         placeholder="Project Type" 
-                        className="race-input race-input-project bg-transparent border-gray-600 text-white placeholder-gray-400" 
+                        className="w-full bg-black/40 backdrop-blur-sm border border-orange-600/30 text-white placeholder-gray-500 px-4 py-4 lg:py-5 rounded-xl text-base lg:text-lg focus:outline-none focus:border-orange-600 focus:ring-2 focus:ring-orange-600/20 transition-all duration-300 group-hover/input:border-orange-600/50 group-hover/input:bg-black/60" 
                       />
-                      <div className="input-glow-effect"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 to-red-600/10 rounded-xl opacity-0 group-hover/input:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
-                  </div>
-                  
-                  <div className="form-field-group">
-                    <div className="form-field-wrapper">
+                    
+                    {/* Message Textarea */}
+                    <div className="relative group/input">
                       <textarea 
                         placeholder="Tell us about your vision..."
-                        rows={4}
-                        className="race-textarea bg-transparent border border-gray-600 rounded-lg w-full p-4 text-white placeholder-gray-400 resize-none focus:outline-none"
+                        rows={5}
+                        className="w-full bg-black/40 backdrop-blur-sm border border-orange-600/30 text-white placeholder-gray-500 px-4 py-4 lg:py-5 rounded-xl text-base lg:text-lg focus:outline-none focus:border-orange-600 focus:ring-2 focus:ring-orange-600/20 transition-all duration-300 group-hover/input:border-orange-600/50 group-hover/input:bg-black/60 resize-none"
                       />
-                      <div className="input-glow-effect"></div>
+                      <div className="absolute inset-0 bg-gradient-to-r from-orange-600/10 to-red-600/10 rounded-xl opacity-0 group-hover/input:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
-                  </div>
-                  
-                  {/* Submit Button with Pulse Animation */}
-                  <div className="form-submit-wrapper">
-                    <button 
-                      type="submit" 
-                      className="race-submit-btn group relative w-full"
-                    >
-                      <span className="relative z-10 flex items-center justify-center">
-                        <span className="mr-2">CROSS THE FINISH LINE</span>
-                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-                      </span>
-                      <div className="submit-btn-glow"></div>
-                      <div className="submit-btn-pulse"></div>
-                    </button>
-                  </div>
-                </form>
+                    
+                    {/* Submit Button with F1 Racing Effects */}
+                    <div className="relative group/submit">
+                      <button 
+                        type="submit" 
+                        className="w-full relative overflow-hidden bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-500 hover:to-red-500 text-white font-bold py-4 lg:py-5 px-8 rounded-xl transition-all duration-300 group-hover/submit:shadow-2xl group-hover/submit:shadow-orange-600/50 group-hover/submit:scale-[1.02] flex items-center justify-center space-x-3 text-base lg:text-lg"
+                      >
+                        {/* Button Background Animation */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover/submit:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+                        
+                        <span className="relative z-10 flex items-center space-x-3">
+                          <span className="font-black tracking-wider uppercase">CROSS THE FINISH LINE</span>
+                          <ArrowRight className="w-5 h-5 lg:w-6 lg:h-6 group-hover/submit:translate-x-1 transition-transform duration-300" />
+                        </span>
+                        
+                        {/* Pulse Effect */}
+                        <div className="absolute inset-0 bg-orange-600/30 rounded-xl scale-100 group-hover/submit:scale-110 opacity-0 group-hover/submit:opacity-100 transition-all duration-300"></div>
+                      </button>
+                    </div>
+                  </form>
+                </div>
+                
+                {/* Bottom Racing Line */}
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
               </div>
             </div>
           </div>
           
-          {/* Finish Line Trophy */}
-          <div className="finish-line-trophy mt-16 text-center">
-            <div className="trophy-icon mx-auto mb-4">
-              <div className="w-16 h-16 bg-gradient-to-r from-yellow-400 via-orange-400 to-red-400 rounded-full flex items-center justify-center mx-auto">
-                <span className="text-2xl">🏆</span>
+          {/* F1 Championship Trophy Section */}
+          <div className="mt-16 lg:mt-20 text-center relative group">
+            <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-orange-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/50 hover:shadow-2xl hover:shadow-orange-600/20 max-w-2xl mx-auto">
+              {/* Top Racing Line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+              <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+              
+              {/* Corner Accents */}
+              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="p-8 lg:p-12">
+                {/* Trophy Icon */}
+                <div className="mb-6 relative">
+                  <div className="w-20 h-20 lg:w-24 lg:h-24 bg-gradient-to-r from-yellow-400 via-orange-500 to-red-500 rounded-full flex items-center justify-center mx-auto shadow-2xl shadow-orange-600/50 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
+                    <span className="text-3xl lg:text-4xl animate-bounce">🏆</span>
+                  </div>
+                  
+                  {/* Glow Effect */}
+                  <div className="absolute inset-0 w-20 h-20 lg:w-24 lg:h-24 bg-orange-600/30 rounded-full mx-auto blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+                
+                {/* Championship Status */}
+                <div className="inline-flex items-center gap-3 mb-4 px-6 py-3 rounded-full border border-orange-600/30 bg-black/40 backdrop-blur-sm">
+                  <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                  <span className="text-orange-500 text-sm font-mono font-bold tracking-wider uppercase">Championship Ready</span>
+                  <div className="w-2 h-2 bg-orange-600 rounded-full animate-pulse"></div>
+                </div>
+                
+                <p className="text-gray-300 text-base lg:text-lg leading-relaxed">
+                  Join <span className="text-orange-500 font-bold">300+ winning projects</span> and claim your 
+                  <span className="text-red-500 font-bold"> digital championship</span> today
+                </p>
               </div>
+              
+              {/* Bottom Racing Line */}
+              <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
             </div>
-            <p className="text-gray-400 text-sm">Join 300+ winning projects and claim your digital championship</p>
           </div>
         </div>
       </section>
 
-      {/* Footer - Night-time F1 Street Circuit */}
+      {/* F1 Championship Footer Section */}
       <footer
         ref={footerRef}
-        className="relative overflow-hidden bg-black border-t border-f1-red/30"
+        className="relative overflow-hidden bg-gradient-to-br from-gray-950 via-black to-gray-900 border-t border-red-600/30"
       >
-        {/* Racing Circuit Background */}
-        <div className="absolute inset-0 championship-circuit-bg opacity-30">
-          {/* Track Layout Lines */}
-          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-f1-red to-transparent track-line"></div>
-          <div className="absolute top-1/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-f1-orange to-transparent track-line"></div>
-          <div className="absolute top-1/2 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-400 to-transparent track-line"></div>
-          <div className="absolute top-3/4 left-0 w-full h-px bg-gradient-to-r from-transparent via-f1-red to-transparent track-line"></div>
-          <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-f1-red to-transparent track-line"></div>
-        </div>
-
-        {/* Championship Trophy Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-gray-900/80 to-black/90"></div>
-        
-        {/* Dynamic Championship Stats Bar */}
-        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-f1-red via-orange-500 to-f1-red opacity-80">
-          <div
-            ref={footerTrackRef}
-            className="h-full bg-gradient-to-r from-f1-red via-white to-f1-red championship-progress"
-          />
-        </div>
-
-        {/* Championship Grid Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="championship-grid">
-            {Array.from({ length: 100 }, (_, i) => (
-              <div key={i} className="championship-cell" />
+        {/* F1 Racing Circuit Background Pattern */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="grid grid-cols-12 h-full gap-px">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="bg-gradient-to-b from-red-600/10 via-transparent to-red-600/10" />
             ))}
           </div>
         </div>
 
-        <div className="relative z-10 container mx-auto px-6 py-20">
-          {/* Championship Header */}
-          <div className="text-center mb-16">
-            <div className="championship-badge mb-6">
-              <div className="championship-logo-container">
-                <div className="text-5xl font-bold text-white championship-glow mb-2">
-                  EN<span className="text-f1-red">SHIFT</span>
+        {/* Dynamic Championship Racing Lines */}
+        <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse" />
+        <div className="absolute top-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60" />
+        <div className="absolute bottom-4 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-60" />
+        <div className="absolute bottom-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse" />
+
+        {/* Championship Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-gray-900/70 to-black/90"></div>
+        
+        {/* Dynamic Championship Progress Bar */}
+        <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-600 via-orange-500 to-red-600 opacity-80">
+          <div
+            ref={footerTrackRef}
+            className="h-full bg-gradient-to-r from-red-600 via-white to-red-600 w-0 animate-[expandLine_4s_ease-in-out_infinite]"
+          />
+        </div>
+
+        <div className="relative z-10 container mx-auto px-6 py-16 lg:py-20">
+          {/* Modern Championship Header */}
+          <div className="text-center mb-16 relative group">
+            {/* Championship Logo */}
+            <div className="mb-8">
+              <div className="relative inline-block">
+                <div className="text-5xl lg:text-6xl xl:text-7xl font-black text-white mb-4 leading-none group-hover:scale-105 transition-transform duration-500">
+                  EN<span className="text-red-600">SHIFT</span>
                 </div>
-                <div className="championship-status-lights">
-                  <div className="status-light green"></div>
-                  <div className="status-light yellow"></div>
-                  <div className="status-light red"></div>
+                
+                {/* Status Lights */}
+                <div className="flex items-center justify-center gap-3 mb-6">
+                  <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                  <div className="w-3 h-3 bg-yellow-400 rounded-full animate-pulse shadow-lg shadow-yellow-400/50" style={{animationDelay: '0.5s'}}></div>
+                  <div className="w-3 h-3 bg-red-600 rounded-full animate-pulse shadow-lg shadow-red-600/50" style={{animationDelay: '1s'}}></div>
                 </div>
+                
+                {/* Glow Effect */}
+                <div className="absolute inset-0 bg-red-600/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-full"></div>
               </div>
             </div>
-            <p className="text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
-              <span className="text-f1-red font-bold">CHAMPIONSHIP WINNER</span> in digital racing. 
-              Delivering <span className="text-cyan-400">high-performance</span> solutions 
-              that put your brand on the <span className="text-orange-400">podium</span>.
+            
+            <p className="text-xl lg:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+              <span className="text-red-600 font-bold">CHAMPIONSHIP WINNER</span> in digital racing. 
+              Delivering <span className="text-cyan-400 font-semibold">high-performance</span> solutions 
+              that put your brand on the <span className="text-orange-400 font-semibold">podium</span>.
             </p>
           </div>
 
-          {/* Championship Dashboard */}
-          <div ref={footerContentRef} className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-16">
-            {/* Main Championship Card */}
-            <div className="lg:col-span-6">
-              <div className="championship-main-card p-8">
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-white championship-glow">
-                    RACING CONTROL CENTER
-                  </h3>
-                  <div className="championship-timer">
-                    <span className="text-f1-red font-mono text-lg">LIVE</span>
+          {/* Modern Championship Dashboard */}
+          <div ref={footerContentRef} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 mb-16">
+            {/* Main Championship Control Center */}
+            <div className="lg:col-span-6 relative group">
+              <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-red-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-red-600/50 hover:shadow-2xl hover:shadow-red-600/20">
+                {/* Top Racing Line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 left-0 w-0 h-px bg-red-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                
+                {/* Corner Accents */}
+                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-orange-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-orange-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="p-8 lg:p-10">
+                  <div className="flex items-center justify-between mb-8">
+                    <h3 className="text-2xl lg:text-3xl font-black text-white leading-tight">
+                      RACING CONTROL <span className="text-red-600">CENTER</span>
+                    </h3>
+                    <div className="bg-black/40 backdrop-blur-sm border border-red-600/30 rounded-lg px-4 py-2">
+                      <span className="text-red-600 font-mono text-sm lg:text-base font-bold tracking-wider uppercase">LIVE</span>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-6 mb-8">
+                    <div className="bg-black/40 backdrop-blur-sm border border-cyan-400/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-cyan-400/40 hover:bg-black/60 group/metric">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-lg flex items-center justify-center">
+                          <Gauge className="w-5 h-5 text-cyan-400 group-hover/metric:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-2xl lg:text-3xl font-black text-cyan-400 font-mono">300+</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">Projects Won</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-400/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-orange-400/40 hover:bg-black/60 group/metric">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-orange-400/20 to-yellow-500/20 rounded-lg flex items-center justify-center">
+                          <Trophy className="w-5 h-5 text-orange-400 group-hover/metric:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-2xl lg:text-3xl font-black text-orange-400 font-mono">50+</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">Awards</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-black/40 backdrop-blur-sm border border-green-400/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-green-400/40 hover:bg-black/60 group/metric">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-green-400/20 to-emerald-500/20 rounded-lg flex items-center justify-center">
+                          <Clock className="w-5 h-5 text-green-400 group-hover/metric:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-2xl lg:text-3xl font-black text-green-400 font-mono">24/7</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">Support</div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-black/40 backdrop-blur-sm border border-orange-600/20 rounded-xl p-4 lg:p-6 transition-all duration-300 hover:border-orange-600/40 hover:bg-black/60 group/metric">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-10 h-10 bg-gradient-to-r from-orange-600/20 to-red-500/20 rounded-lg flex items-center justify-center">
+                          <Target className="w-5 h-5 text-orange-600 group-hover/metric:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-2xl lg:text-3xl font-black text-orange-600 font-mono">99.9%</div>
+                          <div className="text-xs lg:text-sm text-gray-400 uppercase tracking-wider font-medium">On-Time Delivery</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Championship Performance Bar */}
+                  <div className="mb-6">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="text-sm text-gray-400 uppercase tracking-wider font-medium">Championship Performance</span>
+                      <span className="text-sm text-cyan-400 font-mono font-bold">98.7%</span>
+                    </div>
+                    <div className="w-full bg-gray-800/50 rounded-full h-3 overflow-hidden border border-gray-700/50">
+                      <div className="h-full bg-gradient-to-r from-cyan-400 via-blue-500 to-purple-500 rounded-full transition-all duration-1000 ease-out animate-pulse" style={{width: '98.7%'}}></div>
+                    </div>
+                  </div>
+
+                  {/* Live Status */}
+                  <div className="flex items-center justify-center space-x-6">
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg shadow-green-400/50"></div>
+                      <span className="text-green-400 font-semibold text-sm lg:text-base uppercase tracking-wider">SYSTEMS OPTIMAL</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-3 h-3 bg-cyan-400 rounded-full animate-pulse shadow-lg shadow-cyan-400/50"></div>
+                      <span className="text-cyan-400 font-semibold text-sm lg:text-base uppercase tracking-wider">READY TO RACE</span>
+                    </div>
                   </div>
                 </div>
                 
-                <div className="championship-metrics grid grid-cols-2 gap-6 mb-8">
-                  <div className="metric-card">
-                    <div className="metric-icon">
-                      <Gauge className="w-6 h-6 text-cyan-400" />
-                    </div>
-                    <div className="metric-value">300+</div>
-                    <div className="metric-label">Projects Won</div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon">
-                      <Trophy className="w-6 h-6 text-orange-400" />
-                    </div>
-                    <div className="metric-value">50+</div>
-                    <div className="metric-label">Awards</div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon">
-                      <Clock className="w-6 h-6 text-green-400" />
-                    </div>
-                    <div className="metric-value">24/7</div>
-                    <div className="metric-label">Support</div>
-                  </div>
-                  <div className="metric-card">
-                    <div className="metric-icon">
-                      <Target className="w-6 h-6 text-f1-orange" />
-                    </div>
-                    <div className="metric-value">99.9%</div>
-                    <div className="metric-label">On-Time Delivery</div>
-                  </div>
-                </div>
-
-                {/* Championship Performance Bar */}
-                <div className="championship-performance-bar mb-6">
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-gray-400 uppercase tracking-wider">Championship Performance</span>
-                    <span className="text-sm text-cyan-400 font-mono">98.7%</span>
-                  </div>
-                  <div className="performance-track">
-                    <div className="performance-progress" style={{width: '98.7%'}}></div>
-                  </div>
-                </div>
-
-                {/* Live Status */}
-                <div className="championship-live-status">
-                  <div className="flex items-center space-x-4">
-                    <div className="status-indicator pulsing-green"></div>
-                    <span className="text-green-400 font-semibold">SYSTEMS OPTIMAL</span>
-                    <div className="status-indicator pulsing-cyan"></div>
-                    <span className="text-cyan-400 font-semibold">READY TO RACE</span>
-                  </div>
-                </div>
+                {/* Bottom Racing Line */}
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse"></div>
               </div>
             </div>
 
             {/* Navigation & Contact Cards */}
             <div className="lg:col-span-6 space-y-8">
               {/* Racing Navigation */}
-              <div className="championship-nav-card p-6">
-                <h4 className="text-xl font-bold text-white mb-4 championship-glow">
-                  RACING CIRCUITS
-                </h4>
-                <div className="nav-grid grid grid-cols-2 gap-3">
-                  {[
-                    { name: "Home", icon: Home, color: "text-cyan-400" },
-                    { name: "About", icon: User, color: "text-orange-400" },
-                    { name: "Services", icon: Settings, color: "text-green-400" },
-                    { name: "Portfolio", icon: Trophy, color: "text-f1-orange" },
-                    { name: "Contact", icon: Mail, color: "text-f1-red" },
-                    { name: "Blog", icon: FileText, color: "text-yellow-400" }
-                  ].map((item) => (
-                    <a
-                      key={item.name}
-                      href={`#${item.name.toLowerCase()}`}
-                      className="nav-link-card group"
-                    >
-                      <item.icon className={`w-4 h-4 ${item.color} group-hover:text-white transition-colors`} />
-                      <span className="text-gray-300 group-hover:text-white transition-colors">
-                        {item.name}
-                      </span>
-                    </a>
-                  ))}
+              <div className="relative group">
+                <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-orange-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-orange-600/50 hover:shadow-2xl hover:shadow-orange-600/20">
+                  {/* Top Racing Line */}
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
+                  <div className="absolute -top-1 left-0 w-0 h-px bg-orange-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                  
+                  {/* Corner Accents */}
+                  <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-red-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-orange-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className="p-6 lg:p-8">
+                    <h4 className="text-xl lg:text-2xl font-black text-white mb-6 leading-tight">
+                      RACING <span className="text-orange-600">CIRCUITS</span>
+                    </h4>
+                    <div className="grid grid-cols-2 gap-3">
+                      {[
+                        { name: "Home", icon: Home, color: "text-cyan-400" },
+                        { name: "About", icon: User, color: "text-orange-400" },
+                        { name: "Services", icon: Settings, color: "text-green-400" },
+                        { name: "Portfolio", icon: Trophy, color: "text-orange-600" },
+                        { name: "Contact", icon: Mail, color: "text-red-600" },
+                        { name: "Blog", icon: FileText, color: "text-yellow-400" }
+                      ].map((item) => (
+                        <a
+                          key={item.name}
+                          href={`#${item.name.toLowerCase()}`}
+                          className="flex items-center space-x-3 p-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg transition-all duration-300 hover:border-orange-600/50 hover:bg-black/50 group/nav"
+                        >
+                          <item.icon className={`w-4 h-4 ${item.color} group-hover/nav:text-white transition-colors duration-300 group-hover/nav:scale-110`} />
+                          <span className="text-gray-300 group-hover/nav:text-white transition-colors duration-300 text-sm font-medium">
+                            {item.name}
+                          </span>
+                        </a>
+                      ))}
+                    </div>
+                  </div>
+                  
+                  {/* Bottom Racing Line */}
+                  <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-orange-600 to-transparent animate-pulse"></div>
                 </div>
               </div>
 
               {/* Championship Contact */}
-              <div className="championship-contact-card p-6">
-                <h4 className="text-xl font-bold text-white mb-4 championship-glow">
-                  PIT STOP COMMUNICATIONS
-                </h4>
-                <div className="contact-channels space-y-4">
-                  <div className="contact-channel">
-                    <div className="channel-icon">
-                      <Mail className="w-5 h-5 text-cyan-400" />
-                    </div>
-                    <div className="channel-info">
-                      <div className="channel-label">Email Command</div>
-                      <div className="channel-value">hello@enshift.com</div>
+              <div className="relative group">
+                <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-cyan-400/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-400/20">
+                  {/* Top Racing Line */}
+                  <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse"></div>
+                  <div className="absolute -top-1 left-0 w-0 h-px bg-cyan-400 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                  
+                  {/* Corner Accents */}
+                  <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-blue-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-blue-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-cyan-400/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  
+                  <div className="p-6 lg:p-8">
+                    <h4 className="text-xl lg:text-2xl font-black text-white mb-6 leading-tight">
+                      PIT STOP <span className="text-cyan-400">COMMUNICATIONS</span>
+                    </h4>
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-4 p-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg transition-all duration-300 hover:border-cyan-400/50 hover:bg-black/50 group/contact">
+                        <div className="w-10 h-10 bg-gradient-to-r from-cyan-400/20 to-blue-500/20 rounded-lg flex items-center justify-center">
+                          <Mail className="w-5 h-5 text-cyan-400 group-hover/contact:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-cyan-400 text-xs font-bold uppercase tracking-wider font-mono">Email Command</div>
+                          <div className="text-white text-sm lg:text-base font-medium">hello@enshift.com</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-4 p-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg transition-all duration-300 hover:border-green-400/50 hover:bg-black/50 group/contact">
+                        <div className="w-10 h-10 bg-gradient-to-r from-green-400/20 to-emerald-500/20 rounded-lg flex items-center justify-center">
+                          <Phone className="w-5 h-5 text-green-400 group-hover/contact:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-green-400 text-xs font-bold uppercase tracking-wider font-mono">Radio Frequency</div>
+                          <div className="text-white text-sm lg:text-base font-medium">+1 (555) 123-4567</div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center space-x-4 p-3 bg-black/30 backdrop-blur-sm border border-gray-700/50 rounded-lg transition-all duration-300 hover:border-red-600/50 hover:bg-black/50 group/contact">
+                        <div className="w-10 h-10 bg-gradient-to-r from-red-600/20 to-orange-500/20 rounded-lg flex items-center justify-center">
+                          <MapPin className="w-5 h-5 text-red-600 group-hover/contact:scale-110 transition-transform duration-300" />
+                        </div>
+                        <div>
+                          <div className="text-red-600 text-xs font-bold uppercase tracking-wider font-mono">Circuit Location</div>
+                          <div className="text-white text-sm lg:text-base font-medium">Digital Highway, Cloud City</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div className="contact-channel">
-                    <div className="channel-icon">
-                      <Phone className="w-5 h-5 text-green-400" />
-                    </div>
-                    <div className="channel-info">
-                      <div className="channel-label">Radio Frequency</div>
-                      <div className="channel-value">+1 (555) 123-4567</div>
-                    </div>
-                  </div>
-                  <div className="contact-channel">
-                    <div className="channel-icon">
-                      <MapPin className="w-5 h-5 text-f1-red" />
-                    </div>
-                    <div className="channel-info">
-                      <div className="channel-label">Circuit Location</div>
-                      <div className="channel-value">Digital Highway, Cloud City</div>
-                    </div>
-                  </div>
+                  
+                  {/* Bottom Racing Line */}
+                  <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-cyan-400 to-transparent animate-pulse"></div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Championship Social & Newsletter */}
-          <div ref={footerSocialRef} className="championship-social-section">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Social Racing Hub */}
-              <div className="social-racing-hub">
-                <h4 className="text-xl font-bold text-white mb-6 championship-glow">
-                  FOLLOW THE CHAMPIONSHIP
-                </h4>
-                <div className="social-grid">
-                  {[
-                    { Icon: Twitter, label: "Twitter", color: "text-blue-400", bg: "bg-blue-500/20" },
-                    { Icon: Instagram, label: "Instagram", color: "text-pink-400", bg: "bg-pink-500/20" },
-                    { Icon: Linkedin, label: "LinkedIn", color: "text-blue-500", bg: "bg-blue-600/20" },
-                    { Icon: Github, label: "GitHub", color: "text-gray-300", bg: "bg-gray-500/20" }
-                  ].map(({ Icon, label, color, bg }, index) => (
-                    <a
-                      key={label}
-                      href="#"
-                      className={`social-platform-card ${bg} group`}
-                    >
-                      <Icon className={`w-6 h-6 ${color} group-hover:text-white transition-colors`} />
-                      <span className="text-gray-300 group-hover:text-white transition-colors text-sm font-medium">
-                        {label}
-                      </span>
-                    </a>
-                  ))}
+          <div ref={footerSocialRef} className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
+            {/* Social Racing Hub */}
+            <div className="relative group">
+              <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-purple-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-purple-600/50 hover:shadow-2xl hover:shadow-purple-600/20">
+                {/* Top Racing Line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-600 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 left-0 w-0 h-px bg-purple-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                
+                {/* Corner Accents */}
+                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-purple-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-pink-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-pink-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-purple-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="p-6 lg:p-8">
+                  <h4 className="text-xl lg:text-2xl font-black text-white mb-6 leading-tight">
+                    FOLLOW THE <span className="text-purple-600">CHAMPIONSHIP</span>
+                  </h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { Icon: Twitter, label: "Twitter", color: "text-blue-400", bg: "from-blue-500/20 to-cyan-500/20" },
+                      { Icon: Instagram, label: "Instagram", color: "text-pink-400", bg: "from-pink-500/20 to-purple-500/20" },
+                      { Icon: Linkedin, label: "LinkedIn", color: "text-blue-500", bg: "from-blue-600/20 to-indigo-500/20" },
+                      { Icon: Github, label: "GitHub", color: "text-gray-300", bg: "from-gray-500/20 to-slate-500/20" }
+                    ].map(({ Icon, label, color, bg }, index) => (
+                      <a
+                        key={label}
+                        href="#"
+                        className={`flex items-center space-x-3 p-4 bg-gradient-to-r ${bg} backdrop-blur-sm border border-gray-700/50 rounded-xl transition-all duration-300 hover:border-purple-600/50 hover:bg-black/50 group/social`}
+                      >
+                        <Icon className={`w-5 h-5 ${color} group-hover/social:text-white transition-colors duration-300 group-hover/social:scale-110`} />
+                        <span className="text-gray-300 group-hover/social:text-white transition-colors duration-300 text-sm font-medium">
+                          {label}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
                 </div>
+                
+                {/* Bottom Racing Line */}
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-600 to-transparent animate-pulse"></div>
               </div>
+            </div>
 
-              {/* Championship Newsletter */}
-              <div className="championship-newsletter">
-                <h4 className="text-xl font-bold text-white mb-6 championship-glow">
-                  CHAMPIONSHIP UPDATES
-                </h4>
-                <div className="newsletter-card">
-                  <div className="newsletter-header mb-4">
-                    <div className="flex items-center space-x-2">
-                      <div className="newsletter-icon">
-                        <Zap className="w-5 h-5 text-yellow-400" />
+            {/* Championship Newsletter */}
+            <div className="relative group">
+              <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-yellow-600/30 rounded-2xl overflow-hidden transition-all duration-500 hover:border-yellow-600/50 hover:shadow-2xl hover:shadow-yellow-600/20">
+                {/* Top Racing Line */}
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-yellow-600 to-transparent animate-pulse"></div>
+                <div className="absolute -top-1 left-0 w-0 h-px bg-yellow-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+                
+                {/* Corner Accents */}
+                <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-yellow-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-orange-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-orange-500/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-yellow-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                
+                <div className="p-6 lg:p-8">
+                  <h4 className="text-xl lg:text-2xl font-black text-white mb-6 leading-tight">
+                    CHAMPIONSHIP <span className="text-yellow-600">UPDATES</span>
+                  </h4>
+                  <div className="mb-6">
+                    <div className="flex items-center space-x-3 mb-4">
+                      <div className="w-10 h-10 bg-gradient-to-r from-yellow-400/20 to-orange-500/20 rounded-lg flex items-center justify-center">
+                        <Zap className="w-5 h-5 text-yellow-400 animate-pulse" />
                       </div>
-                      <span className="text-gray-300">Get race updates & performance insights</span>
+                      <span className="text-gray-300 text-sm lg:text-base">Get race updates & performance insights</span>
                     </div>
                   </div>
-                  <div className="newsletter-form">
-                    <div className="form-group">
+                  
+                  <div className="space-y-4">
+                    <div className="relative group/input">
                       <Input
                         placeholder="Enter your email for championship updates"
-                        className="championship-input"
+                        className="w-full bg-black/40 backdrop-blur-sm border border-yellow-600/30 text-white placeholder-gray-500 px-4 py-3 lg:py-4 rounded-xl text-sm lg:text-base focus:outline-none focus:border-yellow-600 focus:ring-2 focus:ring-yellow-600/20 transition-all duration-300 group-hover/input:border-yellow-600/50 group-hover/input:bg-black/60"
                       />
-                      <Button className="championship-submit-btn">
-                        <Send className="w-4 h-4 mr-2" />
-                        JOIN RACE
-                      </Button>
+                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-600/10 to-orange-600/10 rounded-xl opacity-0 group-hover/input:opacity-100 transition-opacity duration-300 pointer-events-none"></div>
                     </div>
+                    
+                    <button className="w-full relative overflow-hidden bg-gradient-to-r from-yellow-600 to-orange-600 hover:from-yellow-500 hover:to-orange-500 text-white font-bold py-3 lg:py-4 px-6 rounded-xl transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-600/50 hover:scale-[1.02] flex items-center justify-center space-x-3 text-sm lg:text-base group/submit">
+                      {/* Button Background Animation */}
+                      <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-transparent translate-x-[-100%] group-hover/submit:translate-x-[100%] transition-transform duration-700 ease-out"></div>
+                      
+                      <Send className="w-4 h-4 group-hover/submit:translate-x-1 transition-transform duration-300" />
+                      <span className="font-black tracking-wider uppercase">JOIN RACE</span>
+                      
+                      {/* Pulse Effect */}
+                      <div className="absolute inset-0 bg-yellow-600/30 rounded-xl scale-100 group-hover/submit:scale-110 opacity-0 group-hover/submit:opacity-100 transition-all duration-300"></div>
+                    </button>
                   </div>
                 </div>
+                
+                {/* Bottom Racing Line */}
+                <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-yellow-600 to-transparent animate-pulse"></div>
               </div>
             </div>
           </div>
 
           {/* Championship Footer Bottom */}
-          <div className="championship-footer-bottom mt-16 pt-8 border-t border-gray-700">
-            <div className="flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
-              <div className="championship-copyright">
-                <p className="text-gray-400 text-lg">
-                  &copy; {new Date().getFullYear()} 
-                  <span className="text-f1-red font-bold"> ENSHIFT RACING TEAM</span>
-                  . All rights reserved.
-                </p>
-                <p className="text-gray-500 text-sm mt-1">
-                  Championship winner in digital performance racing since 2020.
-                </p>
-              </div>
-              <div className="championship-legal-links">
-                <div className="flex items-center space-x-8 text-sm">
-                  <a href="#" className="legal-link">Privacy Policy</a>
-                  <a href="#" className="legal-link">Terms of Service</a>
-                  <a href="#" className="legal-link">Cookie Policy</a>
-                  <a href="#" className="legal-link">Racing Rules</a>
+          <div className="relative group">
+            <div className="bg-gradient-to-r from-gray-900/95 via-black/95 to-gray-900/95 backdrop-blur-sm border border-gray-700/50 rounded-2xl overflow-hidden transition-all duration-500 hover:border-gray-600/50 hover:shadow-2xl hover:shadow-gray-600/20">
+              {/* Top Racing Line */}
+              <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent animate-pulse"></div>
+              <div className="absolute -top-1 left-0 w-0 h-px bg-gray-600 group-hover:w-full transition-all duration-1000 ease-out"></div>
+              
+              {/* Corner Accents */}
+              <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-gray-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-gray-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-gray-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-gray-600/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              <div className="p-6 lg:p-8">
+                <div className="flex flex-col lg:flex-row justify-between items-center space-y-6 lg:space-y-0">
+                  <div className="text-center lg:text-left">
+                    <p className="text-gray-400 text-base lg:text-lg leading-relaxed">
+                      &copy; {new Date().getFullYear()} 
+                      <span className="text-red-600 font-bold"> ENSHIFT RACING TEAM</span>
+                      . All rights reserved.
+                    </p>
+                    <p className="text-gray-500 text-sm mt-1">
+                      Championship winner in digital performance racing since 2020.
+                    </p>
+                  </div>
+                  <div className="flex flex-wrap items-center justify-center lg:justify-end gap-4 lg:gap-8 text-sm">
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 hover:underline font-medium">
+                      Privacy Policy
+                    </a>
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 hover:underline font-medium">
+                      Terms of Service
+                    </a>
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 hover:underline font-medium">
+                      Cookie Policy
+                    </a>
+                    <a href="#" className="text-gray-400 hover:text-white transition-colors duration-300 hover:underline font-medium">
+                      Racing Rules
+                    </a>
+                  </div>
                 </div>
               </div>
+              
+              {/* Bottom Racing Line */}
+              <div className="absolute bottom-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-600 to-transparent animate-pulse"></div>
             </div>
           </div>
         </div>
 
         {/* Championship Finish Line */}
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-f1-red to-transparent championship-finish-line" />
+        <div className="absolute bottom-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-red-600 to-transparent animate-pulse shadow-lg shadow-red-600/50" />
       </footer>
     </div>
+    </>
   )
 }
