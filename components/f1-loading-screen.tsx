@@ -22,47 +22,118 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
       audioRef.current.volume = 0.7 // Set to 70% volume for better experience
       audioRef.current.preload = 'auto' // Preload the audio for instant playback
       
-      // Check for haptic support
-      setSupportsHaptics('vibrate' in navigator)
+      // Enhanced haptic support detection
+      const checkHapticSupport = () => {
+        // Check for vibrate API support
+        const hasVibrate = 'vibrate' in navigator
+        
+        // Additional check for mobile devices
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+        
+        // Some browsers support vibrate but don't actually vibrate
+        const isChrome = navigator.userAgent.toLowerCase().includes('chrome')
+        const isFirefox = navigator.userAgent.toLowerCase().includes('firefox')
+        const isSafari = navigator.userAgent.toLowerCase().includes('safari') && !isChrome
+        
+        console.log('Haptic Support Check:', {
+          hasVibrate,
+          isMobile,
+          isChrome,
+          isFirefox,
+          isSafari,
+          userAgent: navigator.userAgent
+        })
+        
+        return hasVibrate && isMobile
+      }
+      
+      setSupportsHaptics(checkHapticSupport())
     }
   }, [])
 
-  // F1 Engine Haptic Patterns
+  // F1 Engine Haptic Patterns - Enhanced with error handling
   const createF1Haptics = (phase: string) => {
-    if (!supportsHaptics || !('vibrate' in navigator)) return
+    if (!supportsHaptics || !('vibrate' in navigator)) {
+      console.log('Haptics not supported or not available')
+      return
+    }
 
-    switch (phase) {
-      case 'starting':
-        // Engine cranking - short bursts
-        navigator.vibrate([100, 50, 100, 50, 200])
-        break
-      case 'revving':
-        // High RPM engine - intense vibration
-        navigator.vibrate([300, 100, 400, 150, 500])
-        break
-      case 'loading':
-        // Smooth engine running - gentle pulses
-        navigator.vibrate([150, 100, 150, 100, 200])
-        break
-      default:
-        break
+    try {
+      let pattern: number[] = []
+      
+      switch (phase) {
+        case 'starting':
+          // Engine cranking - short bursts
+          pattern = [100, 50, 100, 50, 200]
+          break
+        case 'revving':
+          // High RPM engine - intense vibration
+          pattern = [300, 100, 400, 150, 500]
+          break
+        case 'loading':
+          // Smooth engine running - gentle pulses
+          pattern = [150, 100, 150, 100, 200]
+          break
+        case 'complete':
+          // Victory celebration
+          pattern = [200, 100, 300, 150, 400]
+          break
+        default:
+          console.log('Unknown haptic phase:', phase)
+          return
+      }
+
+      console.log(`Triggering haptic feedback for ${phase}:`, pattern)
+      const result = navigator.vibrate(pattern)
+      console.log('Vibrate result:', result)
+      
+      // For iOS Safari and other browsers that might not support patterns
+      if (!result && 'vibrate' in navigator) {
+        console.log('Pattern failed, trying simple vibration')
+        // Try multiple simple vibrations instead of pattern
+        const simpleVibrations = async () => {
+          for (let i = 0; i < pattern.length; i += 2) {
+            if (pattern[i]) {
+              navigator.vibrate(pattern[i])
+              await new Promise(resolve => setTimeout(resolve, pattern[i] + (pattern[i + 1] || 0)))
+            }
+          }
+        }
+        simpleVibrations()
+      }
+      
+    } catch (error) {
+      console.error('Haptic feedback error:', error)
     }
   }
 
-  // Continuous haptic feedback during engine run
+  // Continuous haptic feedback during engine run - Enhanced
   const startContinuousHaptics = () => {
-    if (!supportsHaptics) return
+    if (!supportsHaptics) {
+      console.log('Continuous haptics not supported')
+      return
+    }
 
+    console.log('Starting continuous haptics...')
+    
     const hapticInterval = setInterval(() => {
-      if (currentPhase === 'starting') {
-        navigator.vibrate([80, 60, 120]) // Engine cranking pattern
-      } else if (currentPhase === 'loading') {
-        navigator.vibrate([100, 80, 150]) // Engine running pattern
+      try {
+        if (currentPhase === 'starting') {
+          console.log('Continuous haptic: starting phase')
+          navigator.vibrate([80, 60, 120]) // Engine cranking pattern
+        } else if (currentPhase === 'loading') {
+          console.log('Continuous haptic: loading phase')
+          navigator.vibrate([100, 80, 150]) // Engine running pattern
+        }
+      } catch (error) {
+        console.error('Continuous haptic error:', error)
+        clearInterval(hapticInterval)
       }
     }, 1000) // Repeat every second
 
     // Clear haptics when engine stops
     setTimeout(() => {
+      console.log('Stopping continuous haptics')
       clearInterval(hapticInterval)
     }, 8000) // Stop after 8 seconds
   }
@@ -70,11 +141,28 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
   const startEngine = () => {
     if (isEngineStarted) return // Prevent multiple starts
     
+    console.log('🏎️ Starting F1 Engine Sequence...')
+    console.log('Haptic support:', supportsHaptics)
+    
     setIsEngineStarted(true)
     setCurrentPhase('starting')
     
-    // Trigger initial engine start haptics
-    createF1Haptics('starting')
+    // Test vibration first to ensure user interaction unlocks haptics
+    if (supportsHaptics) {
+      console.log('Testing initial haptic feedback...')
+      try {
+        // Simple test vibration to "unlock" haptics on user interaction
+        const testResult = navigator.vibrate(50)
+        console.log('Test vibration result:', testResult)
+        
+        // Then trigger the actual engine start haptics
+        setTimeout(() => {
+          createF1Haptics('starting')
+        }, 100)
+      } catch (error) {
+        console.error('Initial haptic test failed:', error)
+      }
+    }
     
     // Play F1 Rev sound from video file
     if (audioRef.current) {
@@ -109,9 +197,7 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
             setCurrentPhase('complete')
             
             // Final completion haptic
-            if (supportsHaptics) {
-              navigator.vibrate([200, 100, 300, 150, 400]) // Victory vibration
-            }
+            createF1Haptics('complete')
             
             setTimeout(() => {
               // Stop audio before completing
@@ -460,6 +546,36 @@ export default function F1LoadingScreen({ onLoadingComplete }: F1LoadingScreenPr
                 }}
               />
             ))}
+          </div>
+        )}
+
+        {/* Haptic Test Button (for debugging) */}
+        {supportsHaptics && (
+          <motion.button
+            onClick={() => {
+              console.log('🧪 Testing haptic feedback...')
+              createF1Haptics('starting')
+              setTimeout(() => createF1Haptics('revving'), 500)
+              setTimeout(() => createF1Haptics('complete'), 1000)
+            }}
+            className="mb-4 px-4 py-2 bg-purple-600/20 border border-purple-500/30 rounded-lg text-purple-400 text-sm font-mono hover:bg-purple-600/30 transition-colors"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            🧪 TEST HAPTICS
+          </motion.button>
+        )}
+
+        {/* Haptic Debug Info */}
+        {process.env.NODE_ENV === 'development' && (
+          <div className="mt-4 p-3 bg-gray-900/50 border border-gray-600/30 rounded-lg">
+            <div className="text-xs font-mono text-gray-400 space-y-1">
+              <div>🔍 Haptic Debug Info:</div>
+              <div>• Supports Haptics: {supportsHaptics ? '✅ Yes' : '❌ No'}</div>
+              <div>• Vibrate API: {'vibrate' in navigator ? '✅ Available' : '❌ Not Available'}</div>
+              <div>• User Agent: {typeof window !== 'undefined' ? navigator.userAgent.slice(0, 50) + '...' : 'N/A'}</div>
+              <div>• Mobile Detected: {/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(typeof window !== 'undefined' ? navigator.userAgent : '') ? '✅ Yes' : '❌ No'}</div>
+            </div>
           </div>
         )}
       </motion.div>
